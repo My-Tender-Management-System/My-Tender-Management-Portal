@@ -76,7 +76,7 @@
 **Migration Guide**
 - Update your project to Angular 11.
 - Update app.main.component.ts, app.main.component.html and app.component.ts
-<!-- - Update app.sidebar.component.ts, app.sidebar.component.html. -->
+- Update app.sidebar.component.ts, app.sidebar.component.html.
 - Update theme files and layout files.
 
 **Implemented New Features and Enhancements:**
