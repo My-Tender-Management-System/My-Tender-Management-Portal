@@ -1,0 +1,522 @@
+<!-- <div class="p-4">
+    <form [formGroup]="memberForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Name"
+                        type="text"
+                        pInputText
+                        formControlName="Name"
+                    />
+                    <label for="Name">{{'Name'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Age"
+                        type="text"
+                        formControlName="Age"
+                    ></p-inputNumber>
+                    <label for="Age">{{'Age'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Email"
+                        type="text"
+                        pInputText
+                        formControlName="Email"
+                    />
+                    <label for="Email">{{'Email'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <div>
+                    <ngx-intl-tel-input
+                        [cssClass]="'custom'"
+                        [preferredCountries]="preferredCountries"
+                        [enableAutoCountrySelect]="true"
+                        [enablePlaceholder]="true"
+                        [searchCountryFlag]="true"
+                        [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+            ]
+            "
+                        [selectFirstCountry]="false"
+                        [selectedCountryISO]="CountryISO.SriLanka"
+                        [maxLength]="15"
+                        [phoneValidation]="true"
+                        [separateDialCode]="true"
+                        [numberFormat]="PhoneNumberFormat.National"
+                        name="phone"
+                        formControlName="PhoneNumber"
+                    >
+                    </ngx-intl-tel-input>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Address"
+                        type="text"
+                        pInputText
+                        formControlName="Address"
+                    />
+                    <label for="Address">{{'Address'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Gender"
+                        type="text"
+                        pInputText
+                        formControlName="Gender"
+                    />
+                    <label for="Gender">{{'Gender'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <div class="field col-12 md:col-6 flex align-items-center">
+                    <p-inputSwitch formControlName="IsActive"></p-inputSwitch>
+                    <span class="p-float-label flex">
+                        <label for="IsActive">IsActive</label>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderTeamId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderTeamId"
+                    />
+                    <label for="TenderTeamId"
+                        >{{'TenderTeamId'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading"
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div> -->
+
+<div class="profile-card card width p-0">
+    <form [formGroup]="MemberForm" (ngSubmit)="save()">
+        <div class="profile-card-header card-header">
+            <img
+                *ngIf="coverpicPreviewUrl"
+                class="cover-image-container"
+                [src]="coverpicPreviewUrl"
+                alt="cover-image"
+            />
+            <div
+                class="cover-placeholder-container"
+                *ngIf="!coverpicPreviewUrl"
+            >
+                <img
+                    src="https://evolza-org-bucket.s3.amazonaws.com/cgaas_logo/empty-cover.png"
+                    alt="empty-cover-image"
+                />
+            </div>
+
+            <div class="cover-edit" *ngIf="isEdit!==0">
+                <input
+                    type="file"
+                    (change)="CoverPicChangeEvent($event)"
+                    id="coverUpload"
+                    accept=".png, .jpg, .jpeg"
+                />
+                <label for="coverUpload"></label>
+            </div>
+        </div>
+        <div class="profile-card-body card-body">
+            <div class="card-profile">
+                <div class="row">
+                    <div class="flex flex-column align-items-start">
+                        <div class="card-profile-image">
+                            <div class="avatar-upload">
+                                <div class="avatar-edit" *ngIf="isEdit!==0">
+                                    <input
+                                        type="file"
+                                        (change)="PropicChangeEvent($event)"
+                                        id="imageUpload"
+                                        accept=".png, .jpg, .jpeg"
+                                    />
+                                    <label for="imageUpload"></label>
+                                </div>
+                                <div class="avatar-preview">
+                                    <div
+                                        id="imagePreview"
+                                        [style.background-image]="
+                    'url(' +
+                    (propicPreviewUrl || 'https://evolza-org-bucket.s3.amazonaws.com/cgaas_logo/empty-profile.png') +
+                    ')'
+                  "
+                                        class="background-image"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-profile-details">
+                            <h3
+                                class="m-0"
+                                style="
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                    max-width: 18ch;
+                                "
+                            >
+                                {{Member.FirstName}} {{Member.LastName}}
+                            </h3>
+                            <h6 class="mt-2 font-normal">{{ Member.Email }}</h6>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card-profile-editable-detail">
+                            <div
+                                class="card-profile-editable-detail-header flex px-0 md:px-3"
+                            >
+                                <h5 class="col-11 pb-0">Edit Details</h5>
+                                <div class="col-1">
+                                    <i
+                                        *ngIf="isEdit===0"
+                                        class="pi pi-pencil cursor-pointer"
+                                        style="font-size: 1rem"
+                                        (click)="OnEdit()"
+                                    ></i>
+                                </div>
+                            </div>
+                            <div class="card-profile-editable-detail-details">
+                                <div class="px-0 sm:px-0 md:px-3 mx-3">
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="FirstName"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'FirstName'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="FirstName"
+                                            type="text"
+                                            placeholder="FirstName"
+                                            pInputText
+                                            formControlName="FirstName"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.FirstName}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="LastName"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'LastName'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="LastName"
+                                            type="text"
+                                            placeholder="LastName"
+                                            pInputText
+                                            formControlName="LastName"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.LastName}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="Email"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'Email'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="Email"
+                                            type="text"
+                                            placeholder="Email"
+                                            pInputText
+                                            formControlName="Email"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.Email}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="Country"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'Country'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="Country"
+                                            type="text"
+                                            placeholder="Country"
+                                            pInputText
+                                            formControlName="Country"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.Country}}</span
+                                        >
+                                    </div>
+
+                                    <!-- <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="Phone"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'Phone'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <div
+                                            *ngIf="isEdit!==0"
+                                            class="special col-12 sm:col-12 md:col-6 mt-0 p-0"
+                                        >
+                                            <ngx-intl-tel-input
+                                                [cssClass]="'custom'"
+                                                [preferredCountries]="preferredCountries"
+                                                [enableAutoCountrySelect]="true"
+                                                [enablePlaceholder]="true"
+                                                [searchCountryFlag]="true"
+                                                [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                  ]
+                  "
+                                                [selectFirstCountry]="false"
+                                                [selectedCountryISO]="CountryISO.SriLanka"
+                                                [maxLength]="15"
+                                                [phoneValidation]="true"
+                                                [separateDialCode]="true"
+                                                [numberFormat]="PhoneNumberFormat.National"
+                                                name="phone"
+                                                formControlName="Phone"
+                                            >
+                                            </ngx-intl-tel-input>
+                                        </div>
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.Phone}}</span
+                                        >
+                                    </div> -->
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="Address"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'Address'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="Address"
+                                            type="text"
+                                            placeholder="Address"
+                                            pInputText
+                                            formControlName="Address"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.Address}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="DOB"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'DOB'| camelCaseToTitle}}</label
+                                        >
+
+                                        <p-calendar
+                                            id="DOB"
+                                            appendTo="body"
+                                            formControlName="DOB"
+                                            [showIcon]="true"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 p-0 pt-1 mt-0"
+                                            dateFormat="yy-mm-dd"
+                                        ></p-calendar>
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.DOB}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="Branch"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'Branch'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <input
+                                            id="Branch"
+                                            type="text"
+                                            placeholder="Branch"
+                                            pInputText
+                                            formControlName="Branch"
+                                            *ngIf="isEdit!==0"
+                                            class="col-12 sm:col-12 md:col-6 mt-0"
+                                            required
+                                            autofocus
+                                            [ngClass]="{'ng-invalid ng-dirty':submitted && MemberForm.controls['Branch'].invalid}"
+                                        />
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.Branch}}</span
+                                        >
+                                    </div>
+
+                                    <div class="flex flex-wrap form-group mb-2">
+                                        <label
+                                            for="ContactNo"
+                                            class="col-12 sm:col-12 md:col-6 text-l mb-0"
+                                            >{{'ContactNo'|
+                                            camelCaseToTitle}}</label
+                                        >
+
+                                        <div
+                                            *ngIf="isEdit!==0"
+                                            class="special col-12 sm:col-12 md:col-6 mt-0 p-0"
+                                        >
+                                            <ngx-intl-tel-input
+                                                [cssClass]="'custom'"
+                                                [preferredCountries]="preferredCountries"
+                                                [enableAutoCountrySelect]="true"
+                                                [enablePlaceholder]="true"
+                                                [searchCountryFlag]="true"
+                                                [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                  ]
+                  "
+                                                [selectFirstCountry]="false"
+                                                [selectedCountryISO]="CountryISO.SriLanka"
+                                                [maxLength]="15"
+                                                [phoneValidation]="true"
+                                                [separateDialCode]="true"
+                                                [numberFormat]="PhoneNumberFormat.National"
+                                                name="phone"
+                                                formControlName="ContactNo"
+                                            >
+                                            </ngx-intl-tel-input>
+                                        </div>
+
+                                        <span
+                                            class="font-bold fs-6 text-dark col-12 sm:col-12 md:col-6 mt-0"
+                                            *ngIf="isEdit===0"
+                                            >{{Member.ContactNo}}</span
+                                        >
+                                    </div>
+                                </div>
+                                <div
+                                    class="px-0 col-12 flex flex-column md:flex-row justify-content-center md:justify-content-end mb-2"
+                                    *ngIf="isEdit!==0"
+                                >
+                                    <button
+                                        pButton
+                                        pRipple
+                                        class="p-button-outlined md:w-8rem w-full mr-0 md:mr-3 mb-2 md:mb-0"
+                                        icon="pi pi-times"
+                                        label="Cancel"
+                                        (click)="CloseInstances($event)"
+                                    ></button>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        class="p-button-primary md:w-8rem w-full mr-0 mb-2 md:mb-0"
+                                        [disabled]="isLoading"
+                                        [icon]="isLoading ? '' : 'pi pi-check'"
+                                        label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                                    >
+                                        <span
+                                            *ngIf="isLoading"
+                                            class="pi pi-spin pi-spinner"
+                                        ></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

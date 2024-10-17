@@ -1,0 +1,100 @@
+<!-- <p-toast></p-toast> -->
+<div class="card">
+    <div class="p-4">
+        <form [formGroup]="tenderTeamForm">
+            <div class="grid p-fluid formgrid">
+                <!-- Save Button -->
+                <div class="col-12 flex justify-content-end mt-3">
+                    <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading"
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? 'Saving' : ('Save') }}"
+                    (click)="save()"
+                >
+                    <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+                </button>
+                </div>
+
+                <!-- Team Name Field -->
+                <div class="field col-12 md:col-6 mt-3">
+                    <span class="p-float-label">
+                        <input
+                            id="TeamName"
+                            type="text"
+                            pInputText
+                            formControlName="TeamName"
+                            [ngClass]="{
+                                'ng-invalid ng-dirty':
+                                    submitted &&
+                                    tenderTeamForm.controls['TeamName'].invalid
+                            }"
+                        />
+                        <label for="TeamName">{{ "TeamName" | camelCaseToTitle }}</label>
+                    </span>
+                    <div
+                        *ngIf="
+                            submitted &&
+                            tenderTeamForm.controls['TeamName'].errors
+                        "
+                        class="p-error text-sm mt-2"
+                    >
+                        <i
+                            class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                        ></i>
+                        {{ "TeamName" | camelCaseToTitle }} is required.
+                    </div>
+                </div>
+
+                <!-- Team Lead Field -->
+                <div class="field col-12 md:col-6 mt-3">
+                    <span class="p-float-label">
+                        <input
+                            id="TeamLead"
+                            type="text"
+                            pInputText
+                            formControlName="TeamLead"
+                        />
+                        <label for="TeamLead">{{ "TeamLead" | camelCaseToTitle }}</label>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- PickList for Team Members -->
+    <p-pickList
+        [source]="sourceProducts"
+        [target]="targetProducts"
+        sourceHeader="Members"
+        targetHeader="Team Members"
+        [dragdrop]="true"
+        [responsive]="true"
+        [sourceStyle]="{ height: '30rem' }"
+        [targetStyle]="{ height: '30rem' }"
+        filterBy="FirstName"
+        sourceFilterPlaceholder="Search by name"
+        targetFilterPlaceholder="Search by name"
+        breakpoint="1400px"
+    >
+        <ng-template let-member pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+                <img
+                    class="w-4rem shadow-2 flex-shrink-0 border-round"
+                    [src]="member.ProfileImage || 'https://avatar.iran.liara.run/username?username=' + member.FirstName + member.LastName" 
+                    alt="{{ member.FirstName }}"
+                />
+                <div class="flex-1 flex flex-column gap-2">
+                    <span class="font-bold">{{ member.FirstName + ' ' + member.LastName  }}</span>
+                    <div class="flex align-items-center gap-2">
+                        <i class="pi pi-tag text-sm"></i>
+                        <span>{{ member.Email }}</span>
+                    </div>
+                </div>
+                <span class="font-bold text-900">{{ member.Gender }}</span>
+            </div>
+        </ng-template>
+    </p-pickList>
+</div>

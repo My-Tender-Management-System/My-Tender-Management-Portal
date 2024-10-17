@@ -1,0 +1,192 @@
+<div class="p-4">
+    <form [formGroup]="otherRequirementsForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Warranty"
+                        type="text"
+                        formControlName="Warranty"
+                    ></p-inputNumber>
+                    <label for="Warranty"
+                        >{{'Warranty'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="MaintenanceFee"
+                        type="text"
+                        formControlName="MaintenanceFee"
+                    ></p-inputNumber>
+                    <label for="MaintenanceFee"
+                        >{{'MaintenanceFee'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="DeliveryPeriod"
+                        type="text"
+                        pInputText
+                        formControlName="DeliveryPeriod"
+                    />
+                    <label for="DeliveryPeriod"
+                        >{{'DeliveryPeriod'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="DeliveryDate"
+                        appendTo="body"
+                        formControlName="DeliveryDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="DeliveryDate"
+                        >{{'DeliveryDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-dropdown
+                        id="PaymentMethod"
+                        [options]="paymentMethodOptions"
+                        formControlName="PaymentMethod"
+                        optionLabel="label"
+                        placeholder="Select a Payment Method"
+                        [showClear]="true"
+                    ></p-dropdown>
+                    <label for="PaymentMethod"
+                        >{{ 'PaymentMethod' | camelCaseToTitle }}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="TransportCharges"
+                        type="text"
+                        formControlName="TransportCharges"
+                    ></p-inputNumber>
+                    <label for="TransportCharges"
+                        >{{'TransportCharges'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        appendTo="body"
+                        formControlName="rangeDates"
+                        selectionMode="range"
+                        [showIcon]="true"
+                        [readonlyInput]="true"
+                        (onSelect)="onDateSelect($event)"
+                    ></p-calendar>
+                    <label for="ValidityPeriod">{{ 'ValidityPeriod' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+            
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                        id="DeliveryPlace"
+                        formControlName="DeliveryPlace"
+                    ></textarea>
+                    <label for="DeliveryPlace"
+                        >{{'DeliveryPlace'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                        id="SpecificRequirement"
+                        formControlName="SpecificRequirement"
+                    ></textarea>
+                    <label for="SpecificRequirement"
+                        >{{'SpecificRequirement'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <!-- <p-toast /> -->
+                <p-fileUpload
+                    name="file"
+                    url="https://tyk-apim.cgaas.ai/gateway/file-mgt-app1258/create/file"
+                    (onUpload)="onUpload($event)"
+                    (onSelect)="onFileSelect($event)"
+                    [multiple]="false"
+                    (onClear)="onFilesClear()"
+                    method="post"
+                    [maxFileSize]="2000000"
+                >
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">
+                                {{ file.name }} - {{ file.size }} bytes
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId"
+                        >{{'TenderId'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || otherRequirementsForm.invalid || (fileSelected && !fileUploaded)"
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

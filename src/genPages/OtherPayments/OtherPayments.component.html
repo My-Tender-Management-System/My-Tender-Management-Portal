@@ -1,0 +1,70 @@
+<!-- <p-toast></p-toast> -->
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="OtherPaymentsData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Amount','Date','Description','PaymentForUpload']"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'OtherPayments'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div>
+                    <button *ngIf="hasAccess('DTO3082', 'CREATE') && dtoName" (click)="showCreateOtherPaymentsDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add OtherPayments"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Amount" class="white-space-nowrap" style="width:35%">{{'Amount'| camelCaseToTitle}} <p-sortIcon field="Amount"></p-sortIcon></th>
+<th pSortableColumn="Date" class="white-space-nowrap" style="width:35%">{{'Date'| camelCaseToTitle}} <p-sortIcon field="Date"></p-sortIcon></th>
+<th pSortableColumn="Description" class="white-space-nowrap" style="width:35%">{{'Description'| camelCaseToTitle}} <p-sortIcon field="Description"></p-sortIcon></th>
+<!-- <th pSortableColumn="PaymentForUpload" class="white-space-nowrap" style="width:35%">{{'PaymentForUpload'| camelCaseToTitle}} <p-sortIcon field="PaymentForUpload"></p-sortIcon></th> -->
+<!-- <th pSortableColumn="TenderId" class="white-space-nowrap" style="width:35%">{{'TenderId'| camelCaseToTitle}} <p-sortIcon field="TenderId"></p-sortIcon></th> -->
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-OtherPaymentsData>
+            <tr>
+                <td style="width:20%; min-width:10rem;">
+{{OtherPaymentsData.Amount}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{OtherPaymentsData.Date | date:'dd-MM-yyyy'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{OtherPaymentsData.Description ? (OtherPaymentsData.Description.length > 20 ? (OtherPaymentsData.Description | slice:0:20) + '...' : OtherPaymentsData.Description) : '-'}} 
+</td>
+<!-- <td style="width:25%; min-width:10rem;">
+<button pButton pRipple label="Documents" icon="pi pi-folder" (click)="showFiles(OtherPaymentsData,$event)"></button> 
+</td> -->
+<!-- <td style="width:20%; min-width:10rem;">
+{{OtherPaymentsData.TenderId ? (OtherPaymentsData.TenderId.length > 20 ? (OtherPaymentsData.TenderId | slice:0:20) + '...' : OtherPaymentsData.TenderId) : '-'}} 
+</td> -->
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO3082', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditOtherPaymentsDialog(OtherPaymentsData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO3082', 'DELETE')" (click)="deleteOtherPayments(OtherPaymentsData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

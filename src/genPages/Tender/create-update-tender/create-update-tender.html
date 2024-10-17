@@ -1,0 +1,271 @@
+<div class="p-4">
+    <form [formGroup]="tenderForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Title"
+                        type="text"
+                        pInputText
+                        formControlName="Title"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && tenderForm.controls['Title'].invalid}"
+                    />
+                    <label for="Title">{{'Title'| camelCaseToTitle}} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['Title'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'Title'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Description"
+                        type="text"
+                        pInputText
+                        formControlName="Description"
+                    />
+                    <label for="Description"
+                        >{{'Description'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="OpeningDate"
+                        appendTo="body"
+                        formControlName="OpeningDate"
+                        [showIcon]="true"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && tenderForm.controls['OpeningDate'].invalid}"
+                    ></p-calendar>
+                    <label for="OpeningDate">{{'OpeningDate'| camelCaseToTitle}} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['OpeningDate'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'OpeningDate'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="ClosingDate"
+                        appendTo="body"
+                        formControlName="ClosingDate"
+                        [showIcon]="true"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && tenderForm.controls['ClosingDate'].invalid}"
+                    ></p-calendar>
+                    <label for="ClosingDate">{{'ClosingDate'| camelCaseToTitle}} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['ClosingDate'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'ClosingDate'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Status"
+                        type="text"
+                        pInputText
+                        formControlName="Status"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && tenderForm.controls['Status'].invalid}"
+                    />
+                    <label for="Status">{{'Status'| camelCaseToTitle}}</label>
+                </span>
+
+                <div
+                    *ngIf="submitted && tenderForm.controls['Status'].errors "
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Status'| camelCaseToTitle}} is required.
+                </div>
+            </div> -->
+
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-dropdown
+                        id="Status"
+                        [options]="TenderStatusDropdownOptions"
+                        formControlName="Status"
+                        optionLabel="label"
+                        placeholder="Select a Status"
+                        [showClear]="true"
+                    ></p-dropdown>
+                    <label for="Status">{{ 'Status' | camelCaseToTitle }} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['Status'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'Status' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+            
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderNumber"
+                        type="text"
+                        pInputText
+                        formControlName="TenderNumber"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && tenderForm.controls['TenderNumber'].invalid}"
+                    />
+                    <label for="TenderNumber">{{'TenderNumber'| camelCaseToTitle}} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['TenderNumber'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'TenderNumber'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="DocumentFee"
+                        type="text"
+                        pInputText
+                        formControlName="DocumentFee"
+                    />
+                    <label for="DocumentFee"
+                        >{{'DocumentFee'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-dropdown
+                        id="TenderSource"
+                        [options]="TenderSourcesDropdownOptions"
+                        formControlName="TenderSource"
+                        optionLabel="label"
+                        placeholder="Select a Source"
+                        [showClear]="true"
+                    ></p-dropdown>
+                    <label for="TenderSource">{{ 'TenderSource' | camelCaseToTitle }} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['TenderSource'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'TenderSource' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+            
+              
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="AdvertisementDate"
+                        appendTo="body"
+                        formControlName="AdvertisementDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="AdvertisementDate"
+                        >{{'AdvertisementDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="LastCollectableDate"
+                        appendTo="body"
+                        formControlName="LastCollectableDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="LastCollectableDate"
+                        >{{'LastCollectableDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="5"
+                        cols="30"
+                        pInputTextarea
+                        id="CollectionPlace"
+                        formControlName="CollectionPlace"
+                    ></textarea>
+                    <label for="CollectionPlace"
+                        >{{'CollectionPlace'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="CollectedBy"
+                        type="text"
+                        pInputText
+                        formControlName="CollectedBy"
+                    />
+                    <label for="CollectedBy"
+                        >{{'CollectedBy'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="CollectedDate"
+                        appendTo="body"
+                        formControlName="CollectedDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="CollectedDate"
+                        >{{'CollectedDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !tenderForm.valid" 
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,209 @@
+<div class="p-4">
+    <form [formGroup]="equipmentDetailsForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+
+            <!-- Equipment Name with button -->
+            <div class="field col-12 md:col-6 mt-3 flex align-items-center">
+                <span class="p-float-label">
+                    <p-dropdown
+                      [options]="dropdownEquipmentOptions"
+                      formControlName="EquipmentID"
+                      placeholder="Select an Equipment"
+                      (onChange)="onEquipmentChange($event.value)"
+                      [showClear]="true"
+                    ></p-dropdown>
+                    <label for="EquipmentID">Equipment</label>
+                  </span>
+                <button
+                    pButton
+                    type="button"
+                    icon="pi pi-plus"
+                    class="p-button-primary ml-2"
+                    (click)="navigateToEquipments()"
+                ></button>
+            </div>
+
+            <!-- Quantity -->
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Qty"
+                        type="text"
+                        formControlName="Qty"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && equipmentDetailsForm.controls['Qty'].invalid}"
+                    ></p-inputNumber>
+                    <label for="Qty">
+                        {{ 'Qty' | camelCaseToTitle }} 
+                        <span style="color: red;">*</span> <!-- Red asterisk for mandatory fields -->
+                    </label>
+                </span>
+                <div
+                    *ngIf="submitted && equipmentDetailsForm.controls['Qty'].errors"
+                    class="p-error text-sm mt-2"
+                >
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'Qty' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+            
+            <!-- Bid Amount -->
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="BidAmount"
+                        type="number"
+                        pInputText
+                        formControlName="BidAmount"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && equipmentDetailsForm.controls['BidAmount'].invalid}"
+                    />
+                    <label for="BidAmount">
+                        {{ 'BidAmount' | camelCaseToTitle }} 
+                        <span style="color: red;">*</span>
+                    </label>
+                </span>
+                <div
+                    *ngIf="submitted && equipmentDetailsForm.controls['BidAmount'].errors"
+                    class="p-error text-sm mt-2"
+                >
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'BidAmount' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+            
+            
+
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="BidAmount"
+                        type="number"
+                        pInputText
+                        formControlName="BidAmount"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && equipmentDetailsForm.controls['BidAmount'].invalid}"
+                    />
+                    <label for="BidAmount">
+                        {{ 'BidAmount' | camelCaseToTitle }} 
+                        <span style="color: red;">*</span>
+                    </label>
+                </span>
+                <div
+                    *ngIf="submitted && equipmentDetailsForm.controls['BidAmount'].errors"
+                    class="p-error text-sm mt-2"
+                >
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'BidAmount' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+
+
+            <!-- Bid Bank Charge -->
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="BidBankCharge"
+                        type="number"
+                        pInputText
+                        formControlName="BidBankCharge"
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && equipmentDetailsForm.controls['BidBankCharge'].invalid}"
+                    />
+                    <label for="BidBankCharge">
+                        {{ 'BidBankCharge' | camelCaseToTitle }} 
+                        <span style="color: red;">*</span>
+                    </label>
+                </span>
+                <div
+                    *ngIf="submitted && equipmentDetailsForm.controls['BidBankCharge'].errors"
+                    class="p-error text-sm mt-2"
+                >
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'BidBankCharge' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+
+            <!-- Cost -->
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Cost"
+                        type="number"
+                        pInputText
+                        formControlName="Cost"
+                    />
+                    <label for="Cost">{{ 'Cost' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <!-- Remark -->
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="2"
+                        cols="30"
+                        pInputTextarea
+                        id="Remark"
+                        formControlName="Remark"
+                    ></textarea>
+                    <label for="Remark">{{ 'Remark' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <!-- Tender Id -->
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId">{{ 'TenderId' | camelCaseToTitle }}</label>
+                </span>
+            </div> -->
+
+            <!-- Buttons -->
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !equipmentDetailsForm.valid" 
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- CSS for consistent styling -->
+<style>
+.field .p-float-label label {
+    width: 100%; /* Labels take full width */
+    display: block;
+    text-align: left;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+
+.field .p-float-label {
+    flex-grow: 1;
+}
+
+.field input, .field p-inputNumber, .field textarea, .field p-dropdown {
+    width: 100%; /* Inputs take full width */
+}
+</style>

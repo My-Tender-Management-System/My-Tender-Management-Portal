@@ -1,0 +1,80 @@
+<div class="p-4">
+    <div class="grid p-fluid formgrid">
+        <div class="field col-12 md:col-6 mt-3">
+        <span class="p-float-label">
+            
+
+            <input
+                id="Name"
+                type="text"
+                pInputText
+                [(ngModel)]="role.Name"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !role.Name}"
+            />
+            <label for="Name">Name</label>
+            </span>
+
+            <small
+                class="ng-dirty ng-invalid text-red-500"
+                *ngIf="submitted &&  !role.Name"
+                >Role name is required.</small
+            >
+        </div>
+
+        <div class="field col-12 md:col-6 mt-3">
+            <span class="p-float-label">
+
+            <input
+                id="Description"
+                type="text"
+                pInputText
+                [(ngModel)]="role.Description"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !role.Description}"
+            />
+            <label for="Description">Description</label>
+            </span>
+            <small
+                class="ng-dirty ng-invalid text-red-500"
+                *ngIf="submitted &&  !role.Description"
+                >Description name is required.</small
+            >
+        </div>
+
+        <div
+            *ngFor="let permission of PermissionCategories"
+            class="field col-12 md:col-6"
+        >
+                   <label for="Permissions required">{{permission.ServiceName}} Management</label>
+
+            <div class="d-flex">
+                <div *ngFor="let crud of cruds" class="field-checkbox">
+                    <p-checkbox
+                        [(ngModel)]="permission.Permissions"
+                        [label]="crud.Name || ''"
+                        name="group"
+                        [value]="crud"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 flex justify-content-end mt-4">
+            <button
+                pButton
+                pRipple
+                class="p-button-outlined w-8rem mr-3"
+                icon="pi pi-times"
+                label="Cancel"
+                (click)="CloseInstances()"
+            ></button>
+            <button
+                pButton
+                pRipple
+                class="p-button-primary w-8rem"
+                icon="pi pi-check"
+                label="Save"
+                (click)="save()"
+            ></button>
+        </div>
+    </div>
+</div>

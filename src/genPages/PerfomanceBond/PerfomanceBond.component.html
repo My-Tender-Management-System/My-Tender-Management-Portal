@@ -1,0 +1,257 @@
+<!-- <p-toast></p-toast> -->
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="PerfomanceBondData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'Name',
+            'Amount',
+            'ValidityPeriod',
+            'RefNo',
+            'RequestedDate',
+            'RequiredDate',
+            'ReceivedDate',
+            'CollectedBy'
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{
+                            'PerfomanceBond' | camelCaseToTitle
+                        }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div>
+                    <button
+                        *ngIf="hasAccess('DTO2814', 'CREATE') && dtoName"
+                        (click)="showCreatePerfomanceBondDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Perfomance Bond"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th
+                    pSortableColumn="Name"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Name" | camelCaseToTitle }}
+                    <p-sortIcon field="Name"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Amount"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Amount" | camelCaseToTitle }}
+                    <p-sortIcon field="Amount"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="ValidityPeriod"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "ValidityPeriod" | camelCaseToTitle }}
+                    <p-sortIcon field="ValidityPeriod"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RefNo"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RefNo" | camelCaseToTitle }}
+                    <p-sortIcon field="RefNo"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RequestedDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RequestedDate" | camelCaseToTitle }}
+                    <p-sortIcon field="RequestedDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RequiredDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RequiredDate" | camelCaseToTitle }}
+                    <p-sortIcon field="RequiredDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="ReceivedDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "ReceivedDate" | camelCaseToTitle }}
+                    <p-sortIcon field="ReceivedDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="CollectedBy"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "CollectedBy" | camelCaseToTitle }}
+                    <p-sortIcon field="CollectedBy"></p-sortIcon>
+                </th>
+                <!-- <th pSortableColumn="TenderId" class="white-space-nowrap" style="width:35%">{{'TenderId'| camelCaseToTitle}} <p-sortIcon field="TenderId"></p-sortIcon></th> -->
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-PerfomanceBondData>
+            <tr>
+                <td style="width: 10%; min-width: 10rem">
+                    {{
+                        PerfomanceBondData.Name
+                            ? PerfomanceBondData.Name.length > 20
+                                ? (PerfomanceBondData.Name | slice : 0 : 20) +
+                                  "..."
+                                : PerfomanceBondData.Name
+                            : "-"
+                    }}
+                </td>
+
+                <td style="width: 10%; min-width: 10rem">
+                    {{ PerfomanceBondData.Amount }}
+                </td>
+
+                <td style="width: 6%; min-width: 10rem">
+                    Start Date:
+                    {{
+                        PerfomanceBondData.ValidityPeriod.start
+                            | date : "dd-MM-yyyy"
+                    }}
+                    <br />
+                    End Date:
+                    {{
+                        PerfomanceBondData.ValidityPeriod.end
+                            | date : "dd-MM-yyyy"
+                    }}
+                </td>
+
+                <td style="width: 10%; min-width: 10rem">
+                    {{
+                        PerfomanceBondData.RefNo
+                            ? PerfomanceBondData.RefNo.length > 20
+                                ? (PerfomanceBondData.RefNo | slice : 0 : 20) +
+                                  "..."
+                                : PerfomanceBondData.RefNo
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 10%; min-width: 10rem">
+                    {{ PerfomanceBondData.RequestedDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td style="width: 10%; min-width: 10rem">
+                    {{ PerfomanceBondData.RequiredDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td style="width: 10%; min-width: 10rem">
+                    {{ PerfomanceBondData.ReceivedDate | date : "dd-MM-yyyy" }}
+                </td>
+                <!-- <td style="width: 10%; min-width: 10rem">
+                    {{
+                        PerfomanceBondData.ReceivedDate
+                            ? PerfomanceBondData.ReceivedDate.length > 20
+                                ? (PerfomanceBondData.ReceivedDate
+                                      | slice : 0 : 20) + "..."
+                                : PerfomanceBondData.ReceivedDate
+                            : "-"
+                    }}
+                </td> -->
+                <td style="width: 10%; min-width: 10rem">
+                    {{
+                        PerfomanceBondData.CollectedBy
+                            ? PerfomanceBondData.CollectedBy.length > 20
+                                ? (PerfomanceBondData.CollectedBy
+                                      | slice : 0 : 20) + "..."
+                                : PerfomanceBondData.CollectedBy
+                            : "-"
+                    }}
+                </td>
+                <!-- <td style="width:10%; min-width:10rem;">
+{{PerfomanceBondData.TenderId ? (PerfomanceBondData.TenderId.length > 20 ? (PerfomanceBondData.TenderId | slice:0:20) + '...' : PerfomanceBondData.TenderId) : '-'}} 
+</td> -->
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2814', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="
+                                showEditPerfomanceBondDialog(PerfomanceBondData)
+                            "
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2814', 'DELETE')"
+                            (click)="deletePerfomanceBond(PerfomanceBondData)"
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

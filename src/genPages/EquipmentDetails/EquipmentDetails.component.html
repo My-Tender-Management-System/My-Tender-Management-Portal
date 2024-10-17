@@ -1,0 +1,321 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="EquipmentDetailsData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'EquipmentName',
+            'Qty',
+            'BidAmount',
+            'BidBankCharge',
+            'Remark',
+            'Cost'
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{
+                            'EquipmentDetails' | camelCaseToTitle
+                        }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex">
+                    <button
+                        pButton
+                        class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1 ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <!-- <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1 ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div> -->
+                    <button
+                        *ngIf="hasAccess('DTO2485', 'CREATE') && dtoName"
+                        (click)="showCreateEquipmentDetailsDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto flex-order-0 sm:flex-order-1 ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Equipment Details"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th
+                    pSortableColumn="EquipmentName"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "EquipmentName" | camelCaseToTitle }}
+                    <p-sortIcon field="EquipmentName"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Qty"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Qty" | camelCaseToTitle }}
+                    <p-sortIcon field="Qty"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="BidAmount"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "BidAmount" | camelCaseToTitle }}
+                    <p-sortIcon field="BidAmount"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="BidBankCharge"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "BidBankCharge" | camelCaseToTitle }}
+                    <p-sortIcon field="BidBankCharge"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Remark"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Remark" | camelCaseToTitle }}
+                    <p-sortIcon field="Remark"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Cost"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Cost" | camelCaseToTitle }}
+                    <p-sortIcon field="Cost"></p-sortIcon>
+                </th>
+                
+                <!-- <th
+                    pSortableColumn="TenderId"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "TenderId" | camelCaseToTitle }}
+                    <p-sortIcon field="TenderId"></p-sortIcon>
+                </th> -->
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-EquipmentDetailsData>
+            <tr>
+                <!-- style="width: 6%; min-width: 10rem; font-weight: bold;" -->
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        EquipmentDetailsData.EquipmentID
+                            ? EquipmentDetailsData.EquipmentID.length > 20
+                                ? (EquipmentDetailsData.EquipmentID
+                                      | slice : 0 : 20) + "..."
+                                : EquipmentDetailsData.EquipmentID
+                            : "-"
+                    }}
+                </td>
+
+                <td style="width: 6%; min-width: 10rem">
+                    {{ EquipmentDetailsData.Qty }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ EquipmentDetailsData.BidAmount }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ EquipmentDetailsData.BidBankCharge }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ EquipmentDetailsData.Remark }}
+                </td>
+
+                <!-- style="width: 6%; min-width: 10rem; font-weight: bold;" -->
+                <td style="width: 6%; min-width: 10rem">
+                    {{ EquipmentDetailsData.Cost }}
+                </td>
+                
+                <!-- <td style="width: 6%; min-width: 10rem">
+                    {{
+                        EquipmentDetailsData.TenderId
+                            ? EquipmentDetailsData.TenderId.length > 20
+                                ? (EquipmentDetailsData.TenderId
+                                      | slice : 0 : 20) + "..."
+                                : EquipmentDetailsData.TenderId
+                            : "-"
+                    }}
+                </td> -->
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2485', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="
+                                showEditEquipmentDetailsDialog(
+                                    EquipmentDetailsData
+                                )
+                            "
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2485', 'DELETE')"
+                            (click)="
+                                deleteEquipmentDetails(EquipmentDetailsData)
+                            "
+                            pTooltip="Delete"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-eye"
+                            class="p-button-rounded p-button-warning ml-2"
+                            (click)="
+                                showSelectRelationShip(
+                                    EquipmentDetailsData,
+                                    'DTO2463',
+                                    EquipmentDetailsData.EquipmentDetailsId
+                                )
+                            "
+                            pTooltip="View"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!--  
+
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+    <p-table #dt [columns]="selectedColumns" [value]="EquipmentDetailsData" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]" 
+        [globalFilterFields]="['EquipmentID','Qty','BidAmount','BidBankCharge','Remark','Cost','TenderId']"
+        [loading]="isDataLoading" [tableStyle]="{'min-width': '50rem'}">
+        
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 justify-content-between align-items-center mb-4"> 
+             
+                <span class="p-input-icon-left w-full sm:w-20rem">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" 
+                        placeholder="Equipment Details Search" class="w-full" />
+                </span>
+
+            
+                <div class="flex flex-wrap gap-2 justify-content-between mt-2 sm:mt-0">
+                    <button pButton class="p-button-outlined w-full sm:w-auto" icon="pi pi-download" label="Download CSV"
+                        (click)="downloadFile()"></button>
+                    
+                    <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined w-full sm:w-auto"
+                            icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div>
+                    
+                    <button *ngIf="hasAccess('DTO2485', 'CREATE') && dtoName" 
+                        (click)="showCreateEquipmentDetailsDialog()" pButton 
+                        class="p-button-primary w-full sm:w-auto" icon="pi pi-plus" label="Add EquipmentDetails">
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-content-start w-full sm:w-auto hide-on-small" style="display: flex;">
+               
+                <p-multiSelect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                    selectedItemsLabel="{0} columns selected" class="w-full sm:w-auto" placeholder="Choose Columns">
+                </p-multiSelect>
+              </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th pSortableColumn="EquipmentID" style="text-align: center; padding: 8px;">EquipmentID <p-sortIcon field="EquipmentID"></p-sortIcon></th>
+                <th *ngFor="let col of columns" pSortableColumn="{{col.field}}" style="text-align: center; padding: 8px;">
+                    {{col.header}} 
+                    <p-sortIcon field="{{col.field}}"></p-sortIcon>
+                </th>
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%; text-align: center; padding: 8px;">Action</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-EquipmentDetailsData let-columns="columns">
+            <tr>
+                <td style="text-align: center; padding: 8px;">
+                    {{EquipmentDetailsData.EquipmentID ? (EquipmentDetailsData.EquipmentID.length > 20 ? (EquipmentDetailsData.EquipmentID | slice:0:20) + '...' : EquipmentDetailsData.EquipmentID) : '-'}}
+                </td>
+                <td *ngFor="let col of columns" style="text-align: center; padding: 8px;">{{EquipmentDetailsData[col.field]}}</td>
+                <td style="text-align: center; padding: 8px;">
+                    <div class="flex justify-content-center">
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2485', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                            (click)="showEditEquipmentDetailsDialog(EquipmentDetailsData)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2485', 'DELETE')" (click)="deleteEquipmentDetails(EquipmentDetailsData)" pTooltip="Delete"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<style>
+    @media (max-width: 640px) {
+      .hide-on-small {
+        display: none !important;
+      }
+    }
+</style>  -->

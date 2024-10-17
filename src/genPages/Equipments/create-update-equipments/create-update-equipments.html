@@ -1,0 +1,135 @@
+<div class="p-4">
+    <form [formGroup]="equipmentsForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Name"
+                        type="text"
+                        pInputText
+                        formControlName="Name"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && equipmentsForm.controls['Name'].invalid}"
+                    />
+                    <label for="Name">{{'Name'| camelCaseToTitle}}</label>
+                </span>
+
+                <div
+                    *ngIf="submitted && equipmentsForm.controls['Name'].errors "
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Name'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Make"
+                        type="text"
+                        pInputText
+                        formControlName="Make"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && equipmentsForm.controls['Make'].invalid}"
+                    />
+                    <label for="Make">{{'Make'| camelCaseToTitle}}</label>
+                </span>
+
+                <div
+                    *ngIf="submitted && equipmentsForm.controls['Make'].errors "
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Make'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Model"
+                        type="text"
+                        pInputText
+                        formControlName="Model"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && equipmentsForm.controls['Model'].invalid}"
+                    />
+                    <label for="Model">{{'Model'| camelCaseToTitle}}</label>
+                </span>
+
+                <div
+                    *ngIf="submitted && equipmentsForm.controls['Model'].errors "
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Model'| camelCaseToTitle}} is required.
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="RefNo"
+                        type="text"
+                        pInputText
+                        formControlName="RefNo"
+                    />
+                    <label for="RefNo">{{'RefNo'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Country"
+                        type="text"
+                        pInputText
+                        formControlName="Country"
+                    />
+                    <label for="Country">{{'Country'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="UnitPrice"
+                        type="text"
+                        formControlName="UnitPrice"
+                    ></p-inputNumber>
+                    <label for="UnitPrice"
+                        >{{'UnitPrice'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading"
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

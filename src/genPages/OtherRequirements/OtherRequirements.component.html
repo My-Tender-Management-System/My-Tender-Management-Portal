@@ -1,0 +1,288 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="OtherRequirementsData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'Warranty',
+            'RequiredDocuments',
+            'MaintenanceFee',
+            'DeliveryPeriod',
+            'DeliveryDate',
+            'DeliveryPlace',
+            'PaymentMethod',
+            'TransportCharges',
+            'Validity',
+            'SpecificRequirement',
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{
+                            'OtherRequirements' | camelCaseToTitle
+                        }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <!-- <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div> -->
+                    <button
+                        *ngIf="hasAccess('DTO2810', 'CREATE') && dtoName"
+                        (click)="showCreateOtherRequirementsDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Other Requirements"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th
+                    pSortableColumn="Warranty"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Warranty" | camelCaseToTitle }}
+                    <p-sortIcon field="Warranty"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RequiredDocuments"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RequiredDocuments" | camelCaseToTitle }}
+                    <p-sortIcon field="RequiredDocuments"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="MaintenanceFee"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "MaintenanceFee" | camelCaseToTitle }}
+                    <p-sortIcon field="MaintenanceFee"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="DeliveryPeriod"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "DeliveryPeriod" | camelCaseToTitle }}
+                    <p-sortIcon field="DeliveryPeriod"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="DeliveryDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "DeliveryDate" | camelCaseToTitle }}
+                    <p-sortIcon field="DeliveryDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="DeliveryPlace"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "DeliveryPlace" | camelCaseToTitle }}
+                    <p-sortIcon field="DeliveryPlace"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="PaymentMethod"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "PaymentMethod" | camelCaseToTitle }}
+                    <p-sortIcon field="PaymentMethod"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="TransportCharges"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "TransportCharges" | camelCaseToTitle }}
+                    <p-sortIcon field="TransportCharges"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Validity"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Validity" | camelCaseToTitle }}
+                    <p-sortIcon field="Validity"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="SpecificRequirement"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "SpecificRequirement" | camelCaseToTitle }}
+                    <p-sortIcon field="SpecificRequirement"></p-sortIcon>
+                </th>
+                <!-- <th
+                    pSortableColumn="TenderId"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "TenderId" | camelCaseToTitle }}
+                    <p-sortIcon field="TenderId"></p-sortIcon>
+                </th> -->
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-OtherRequirementsData>
+            <tr>
+                <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.Warranty }}
+                </td>
+                <td style="width: 25%; min-width: 10rem">
+                    <button
+                        pButton
+                        pRipple
+                        label="Documents"
+                        icon="pi pi-folder"
+                        (click)="showFiles(OtherRequirementsData, $event)"
+                    ></button>
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.MaintenanceFee }}
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{
+                        OtherRequirementsData.DeliveryPeriod
+                            ? OtherRequirementsData.DeliveryPeriod.length > 20
+                                ? (OtherRequirementsData.DeliveryPeriod
+                                      | slice : 0 : 20) + "..."
+                                : OtherRequirementsData.DeliveryPeriod
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{
+                        OtherRequirementsData.DeliveryDate | date : "dd-MM-yyyy"
+                    }}
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.DeliveryPlace }}
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{
+                        OtherRequirementsData.PaymentMethod
+                            ? OtherRequirementsData.PaymentMethod.length > 20
+                                ? (OtherRequirementsData.PaymentMethod
+                                      | slice : 0 : 20) + "..."
+                                : OtherRequirementsData.PaymentMethod
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.TransportCharges }}
+                </td>
+                <!-- <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.Validity | date : "dd-MM-yyyy" }}
+                </td> -->
+
+                <td style="width: 6%; min-width: 10rem">
+                    Start Date:
+                    {{
+                        OtherRequirementsData.ValidityPeriod.start | date : "dd-MM-yyyy"
+                    }}
+                    <br />
+                    End Date:
+                    {{ OtherRequirementsData.ValidityPeriod.end | date : "dd-MM-yyyy" }}
+                </td>
+                
+                <td style="width: 9%; min-width: 10rem">
+                    {{ OtherRequirementsData.SpecificRequirement }}
+                </td>
+                <!-- <td style="width: 9%; min-width: 10rem">
+                    {{
+                        OtherRequirementsData.TenderId
+                            ? OtherRequirementsData.TenderId.length > 20
+                                ? (OtherRequirementsData.TenderId
+                                      | slice : 0 : 20) + "..."
+                                : OtherRequirementsData.TenderId
+                            : "-"
+                    }}
+                </td> -->
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2810', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="
+                                showEditOtherRequirementsDialog(
+                                    OtherRequirementsData
+                                )
+                            "
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2810', 'DELETE')"
+                            (click)="
+                                deleteOtherRequirements(OtherRequirementsData)
+                            "
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,98 @@
+<div class="p-4">
+    <form [formGroup]="userForm" (ngSubmit)="save()">
+    <div class="grid p-fluid formgrid">
+
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="FirstName" type="text" pInputText formControlName="FirstName" 
+              >
+            <label for="FirstName">{{'FirstName'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="LastName" type="text" pInputText formControlName="LastName" 
+              >
+            <label for="LastName">{{'LastName'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Email" type="text" pInputText formControlName="Email" 
+              >
+            <label for="Email">{{'Email'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+       
+            <span class="p-float-label">
+            <p-dropdown
+                [disabled]="isLoadingClient"
+                [dropdownIcon]="isLoadingClient ? 'pi pi-spinner pi-spin' : 'pi pi-chevron-down'"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !userForm.get('RoleId').value}"
+                [options]="rolesData"
+                optionValue="RoleId"
+                formControlName="RoleId"
+                optionLabel="Name"
+                placeholder="Select Role"
+                appendTo="body"
+            ></p-dropdown>
+            <label for="RoleName">{{'RoleName'| camelCaseToTitle}}</label>
+            </span>
+    
+            <div *ngIf="submitted && userForm.controls['RoleId'].errors "class="p-error text-sm mt-2 md:px-3">
+            <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+            Role is required.
+            </div>
+            <!--<small class="ng-dirty ng-invalid text-green-500" *ngIf="submitted &&  selectedClient">Client name looks good.</small>-->
+          
+
+
+            
+        </div>
+        
+
+
+
+        <div class="col-12 flex justify-content-end mt-4">
+            <button pButton pRipple class="p-button-outlined w-8rem mr-3" icon="pi pi-times" label="Cancel"
+                    (click)="CloseInstances($event)"></button>
+            <button pButton pRipple class="p-button-primary w-8rem" [disabled]="isLoading" [icon]="isLoading ? '' : 'pi pi-check'" label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}">
+                <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+            </button>
+        </div>        
+    </div>
+    </form>
+</div>

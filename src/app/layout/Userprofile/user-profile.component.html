@@ -1,0 +1,162 @@
+<div class="m-5">
+    <h4>Account Settings</h4>
+</div>
+<div class="flex justify-content-center">
+    <div class="col-10 card pb-0 mt-3" style="border-radius: 0">
+        <div class="flex-column justify-content-center">
+            <div class="flex card-body my-5 mx-5">
+                    <div class="profile-photo">
+                        <img
+                            [src]="ProfileData?.picture"
+                            alt="Profile Photo"
+                        />
+                    </div>
+                <div class="col-6 flex justify-content-end mt-7">
+                    <button
+                        pButton
+                        pRipple
+                        class="p-button-primary w-9rem h-4rem mr-3"
+                        label="Upload New"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        class="p-button-outlined w-9rem h-4rem"
+                        icon="pi pi-times"
+                        label="Delete"
+                    ></button>
+                </div>
+            </div>
+            <div class="flex-column">
+                <div class="card-body mx-5 mt-5 mb-2">
+                    <div class="grid p-fluid formgrid">
+                        <div class="col-6 md:col-6 field mb-4">
+                            <label
+                                for="First Name"
+                                class="text-900 font-semibold"
+                                >First Name</label
+                            >
+                            <input
+                                id="fisrtname"
+                                type="text"
+                                placeholder="First Name"
+                                pInputText
+                                value="{{ ProfileData?.given_name || ProfileData?.name }}"
+                            />
+                            <small
+                            class="ng-dirty ng-invalid text-red-500"
+                            *ngIf="submitted && !ProfileData?.given_name"
+                            >Fisrt Name is required.</small
+                        >
+                            <small
+                                class="ng-dirty ng-invalid text-green-500"
+                                *ngIf="submitted && ProfileData?.given_name"
+                                >Fisrt Name looks good.</small
+                            >
+                        </div>
+                        <div class="col-6 md:col-6 field mb-4">
+                            <label
+                                for="lastName"
+                                class="text-900 font-semibold"
+                                >Last Name</label
+                            >
+                            <input
+                                id="lastname"
+                                type="text"
+                                placeholder="Last Name"
+                                pInputText
+                                value="{{ ProfileData?.family_name }}"
+                            />
+                            <small
+                            class="ng-dirty ng-invalid text-red-500"
+                            *ngIf="submitted && !ProfileData?.family_name"
+                            >Last Name is required.</small
+                        >
+                            <small
+                                class="ng-dirty ng-invalid text-green-500"
+                                *ngIf="submitted && ProfileData?.family_name"
+                                >Last Name looks good.</small
+                            >
+                        </div>
+                        <div class="col-6 md:col-6 field mb-4">
+                            <label
+                                for="nickname"
+                                class="text-900 font-semibold"
+                                >Nick Name</label
+                            >
+                            <input
+                                id="lastname"
+                                type="text"
+                                placeholder="Nick Name"
+                                pInputText
+                                value="{{ ProfileData?.nickname }}"
+                            />
+                            <small
+                            class="ng-dirty ng-invalid text-red-500"
+                            *ngIf="submitted && !ProfileData?.nickname"
+                            >Nick Name is required.</small
+                        >
+                            <small
+                                class="ng-dirty ng-invalid text-green-500"
+                                *ngIf="submitted && ProfileData?.nickname"
+                                >Nick Name looks good.</small
+                            >
+                        </div>
+                        <div class="col-6 md:col-6 field mb-4">
+                            <label
+                                for="email"
+                                class="text-900 font-semibold"
+                                >Email</label
+                            >
+                            <input
+                                id="email"
+                                type="text"
+                                placeholder="Email"
+                                pInputText
+                                value="{{ ProfileData?.email }}"
+                            />
+                            <small
+                            class="ng-dirty ng-invalid text-red-500"
+                            *ngIf="submitted && !ProfileData?.email"
+                            >Email is required.</small
+                        >
+                            <small
+                                class="ng-dirty ng-invalid text-green-500"
+                                *ngIf="submitted && ProfileData?.email"
+                                >Email looks good.</small
+                            >
+                        </div>
+                        <div class="col-6 md:col-6 field mb-4" *ngFor="let key of getUserMetadataKeys()">
+                            <label for="{{ key }}" class="text-900 font-semibold">{{ key }}</label>
+                            <input
+                              [id]="key"
+                              type="text"
+                              [placeholder]="key"
+                              pInputText
+                              [value]="ProfileData?.user_metadata[key]"
+                            />
+                            <small
+                              class="ng-dirty ng-invalid text-red-500"
+                              *ngIf="submitted && !ProfileData?.user_metadata[key]"
+                            >{{ key }} is required.</small>
+                            <small
+                              class="ng-dirty ng-invalid text-green-500"
+                              *ngIf="submitted && ProfileData?.user_metadata[key]"
+                            >{{ key }} looks good.</small>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex ml-3 mb-3">
+                <div class="col-6 flex justify-content-start">
+                    <button
+                        pButton
+                        pRipple
+                        class="p-button-primary w-10rem h-3rem mr-3"
+                        label="Save changes"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

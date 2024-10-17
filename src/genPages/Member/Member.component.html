@@ -1,0 +1,166 @@
+<!-- <p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="MemberData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Name','Age','Email','PhoneNumber','Address','Gender','IsActive','TenderTeamId',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'Member'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div>
+                    <button *ngIf="hasAccess('DTO2821', 'CREATE') && dtoName" (click)="showCreateMemberDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Member"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Name" class="white-space-nowrap" style="width:35%">{{'Name'| camelCaseToTitle}} <p-sortIcon field="Name"></p-sortIcon></th>
+<th pSortableColumn="Age" class="white-space-nowrap" style="width:35%">{{'Age'| camelCaseToTitle}} <p-sortIcon field="Age"></p-sortIcon></th>
+<th pSortableColumn="Email" class="white-space-nowrap" style="width:35%">{{'Email'| camelCaseToTitle}} <p-sortIcon field="Email"></p-sortIcon></th>
+<th pSortableColumn="PhoneNumber" class="white-space-nowrap" style="width:35%">{{'PhoneNumber'| camelCaseToTitle}} <p-sortIcon field="PhoneNumber"></p-sortIcon></th>
+<th pSortableColumn="Address" class="white-space-nowrap" style="width:35%">{{'Address'| camelCaseToTitle}} <p-sortIcon field="Address"></p-sortIcon></th>
+<th pSortableColumn="Gender" class="white-space-nowrap" style="width:35%">{{'Gender'| camelCaseToTitle}} <p-sortIcon field="Gender"></p-sortIcon></th>
+<th pSortableColumn="IsActive" class="white-space-nowrap" style="width:35%">{{'IsActive'| camelCaseToTitle}} <p-sortIcon field="IsActive"></p-sortIcon></th>
+<th pSortableColumn="TenderTeamId" class="white-space-nowrap" style="width:35%">{{'TenderTeamId'| camelCaseToTitle}} <p-sortIcon field="TenderTeamId"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-MemberData>
+            <tr>
+                <td style="width:12%; min-width:10rem;">
+{{MemberData.Name ? (MemberData.Name.length > 20 ? (MemberData.Name | slice:0:20) + '...' : MemberData.Name) : '-'}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.Age}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.Email}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.PhoneNumber}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.Address ? (MemberData.Address.length > 20 ? (MemberData.Address | slice:0:20) + '...' : MemberData.Address) : '-'}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.Gender}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.IsActive}} 
+</td>
+<td style="width:12%; min-width:10rem;">
+{{MemberData.TenderTeamId ? (MemberData.TenderTeamId.length > 20 ? (MemberData.TenderTeamId | slice:0:20) + '...' : MemberData.TenderTeamId) : '-'}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2821', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditMemberDialog(MemberData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2821', 'DELETE')" (click)="deleteMember(MemberData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div> -->
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="MemberData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['MemberId','FirstName','LastName','Email','Country','Address','DOB','Branch','ContactNo',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Member Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <!-- <div class="hidden sm:block w-full sm:w-auto">
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div> -->
+                    <button  (click)="showCreateMemberDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Member"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="firstName" class="white-space-nowrap" style="width:25%" id="firstName">First Name<p-sortIcon
+                    field="firstName"></p-sortIcon></th>
+                <th pSortableColumn="lastName" class="white-space-nowrap" style="width:25%" id="lastName">Last Name<p-sortIcon
+                    field="lastName"></p-sortIcon></th>
+                <th pSortableColumn="profilePicture" class="white-space-nowrap" style="width:10%" id="firstName">Profile picture<p-sortIcon
+                    field="profilePicture"></p-sortIcon></th>
+                <th pSortableColumn="Email" class="white-space-nowrap" style="width:35%">Email<p-sortIcon field="Email"></p-sortIcon></th>
+<th pSortableColumn="Country" class="white-space-nowrap" style="width:35%">Country<p-sortIcon field="Country"></p-sortIcon></th>
+<th pSortableColumn="Address" class="white-space-nowrap" style="width:35%">Address<p-sortIcon field="Address"></p-sortIcon></th>
+<th pSortableColumn="DOB" class="white-space-nowrap" style="width:35%">Dob<p-sortIcon field="DOB"></p-sortIcon></th>
+<th pSortableColumn="Branch" class="white-space-nowrap" style="width:35%">Branch<p-sortIcon field="Branch"></p-sortIcon></th>
+<th pSortableColumn="ContactNo" class="white-space-nowrap" style="width:35%">Contactno<p-sortIcon field="ContactNo"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-MemberData>
+            <tr (click)="showEditMemberDialog(MemberData)">
+                <td style="width:25%; min-width:10rem;" class="cursor-pointer font-bold">
+                    {{MemberData.FirstName?(MemberData.FirstName.length > 20 ? (MemberData.FirstName | slice:0:20) + '...' : MemberData.FirstName):'-'}}
+                </td>
+                <td style="width:25%; min-width:10rem;" class="cursor-pointer font-bold">
+                    {{MemberData.LastName?(MemberData.LastName.length > 20 ? (MemberData.LastName | slice:0:20) + '...' : MemberData.LastName):'-'}}
+                </td>
+                <td>
+                    <p-avatar image="{{ MemberData.ProfileImage }}"  styleClass="ml-2" size="large" shape="circle" *ngIf="MemberData.ProfileImage"></p-avatar>
+                    <p-avatar image="https://evolza-org-bucket.s3.amazonaws.com/cgaas_logo/empty-profile.png" styleClass="ml-2" size="large" shape="circle" *ngIf="!MemberData.ProfileImage"></p-avatar>
+                </td>
+                <td style="width:11%; min-width:10rem;">
+{{MemberData.Email ? (MemberData.Email.length > 20 ? (MemberData.Email | slice:0:20) + '...' : MemberData.Email) : '-'}} 
+</td>
+<td style="width:11%; min-width:10rem;">
+{{MemberData.Country ? (MemberData.Country.length > 20 ? (MemberData.Country | slice:0:20) + '...' : MemberData.Country) : '-'}} 
+</td>
+<td style="width:11%; min-width:10rem;">
+{{MemberData.Address ? (MemberData.Address.length > 20 ? (MemberData.Address | slice:0:20) + '...' : MemberData.Address) : '-'}} 
+</td>
+<td style="width:11%; min-width:10rem;">
+{{MemberData.DOB}} 
+</td>
+<td style="width:11%; min-width:10rem;">
+{{MemberData.Branch ? (MemberData.Branch.length > 20 ? (MemberData.Branch | slice:0:20) + '...' : MemberData.Branch) : '-'}} 
+</td>
+<td style="width:11%; min-width:10rem;">
+{{MemberData.ContactNo}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="deleteMember($event,MemberData)"   pTooltip="Delete"></button>
+                        
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

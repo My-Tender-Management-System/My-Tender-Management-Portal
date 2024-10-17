@@ -1,0 +1,98 @@
+<div class="p-4">
+    <form [formGroup]="companyForm" (ngSubmit)="save()">
+    <div class="grid p-fluid formgrid">
+
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Name" type="text" pInputText formControlName="Name" 
+               [ngClass]="{'ng-invalid ng-dirty':submitted && companyForm.controls['Name'].invalid}">
+            <label for="Name">{{'Name'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+                <div *ngIf="submitted && companyForm.controls['Name'].errors "class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'Name'| camelCaseToTitle}} is required.
+                </div>
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Location" type="text" pInputText formControlName="Location" 
+               [ngClass]="{'ng-invalid ng-dirty':submitted && companyForm.controls['Location'].invalid}">
+            <label for="Location">{{'Location'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+                <div *ngIf="submitted && companyForm.controls['Location'].errors "class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'Location'| camelCaseToTitle}} is required.
+                </div>
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="ContactPerson" type="text" pInputText formControlName="ContactPerson" 
+              >
+            <label for="ContactPerson">{{'ContactPerson'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+            <div>
+            <ngx-intl-tel-input [cssClass] = "'custom'" [preferredCountries] = "preferredCountries" [enableAutoCountrySelect] = "true" [enablePlaceholder] = "true" [searchCountryFlag] = "true" [searchCountryField] = "[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+            ]
+            " [selectFirstCountry] = "false" [selectedCountryISO] = "CountryISO.SriLanka" [maxLength] = "15" [phoneValidation] = "true" [separateDialCode] = "true" [numberFormat] = "PhoneNumberFormat.National"
+            name = "phone"
+            formControlName = "ContactNumber" >
+            </ngx-intl-tel-input> 
+            </div>
+                
+          
+
+
+            
+        </div>
+        
+
+
+
+        <div class="col-12 flex justify-content-end mt-4">
+            <button pButton pRipple class="p-button-outlined w-8rem mr-3" icon="pi pi-times" label="Cancel"
+                    (click)="CloseInstances($event)"></button>
+            <button pButton pRipple class="p-button-primary w-8rem" [disabled]="isLoading" [icon]="isLoading ? '' : 'pi pi-check'" label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}">
+                <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+            </button>
+        </div>        
+    </div>
+    </form>
+</div>

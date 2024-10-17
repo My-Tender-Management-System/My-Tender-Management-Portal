@@ -1,0 +1,122 @@
+<div class="p-4">
+    <form [formGroup]="updatesForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label flex-grow-1">
+                    <p-calendar
+                        id="Date"
+                        appendTo="body"
+                        formControlName="Date"
+                        [showIcon]="true"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && updatesForm.controls['Date'].invalid}"
+                    ></p-calendar>
+                    <label for="Date">
+                        {{ 'Date' | camelCaseToTitle }} 
+                        <span style="color: red;">*</span> <!-- Red asterisk for mandatory fields -->
+                    </label>
+                </span>
+            
+                <div
+                    *ngIf="submitted && updatesForm.controls['Date'].errors"
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'Date' | camelCaseToTitle }} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label flex-grow-1">
+                    <input
+                        id="Category"
+                        type="text"
+                        pInputText
+                        formControlName="Category"
+                    />
+                    <label for="Category">{{ 'Category' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label flex-grow-1">
+                    <input
+                        id="FollowedBy"
+                        type="text"
+                        pInputText
+                        formControlName="FollowedBy"
+                    />
+                    <label for="FollowedBy">{{ 'FollowedBy' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label flex-grow-1">
+                    <textarea
+                        rows="3"
+                        cols="30"
+                        pInputTextarea
+                        id="Remark"
+                        formControlName="Remark"
+                    ></textarea>
+                    <label for="Remark">{{ 'Remark' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label flex-grow-1">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId">{{ 'TenderId' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !updatesForm.valid" 
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+.field .p-float-label label {
+    width: 100%; /* Ensure labels take full width of their container */
+    display: block; /* Make sure labels are block-level to stack properly */
+    text-align: left; /* Align labels consistently */
+}
+
+.field {
+    display: flex;
+    align-items: center;
+}
+
+.field .p-float-label {
+    flex-grow: 1; /* Allow inputs to grow equally */
+}
+
+.field input, .field p-inputNumber, .field textarea, .field p-dropdown, .field p-calendar {
+    width: 100%; /* Ensure inputs fill the available space */
+}
+</style>

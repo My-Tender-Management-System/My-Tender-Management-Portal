@@ -1,0 +1,71 @@
+<div class="p-4">
+    <form [formGroup]="notificationForm" (ngSubmit)="save()">
+    <div class="grid p-fluid formgrid">
+
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Title" type="text" pInputText formControlName="Title" 
+              >
+            <label for="Title">{{'Title'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Message" type="text" pInputText formControlName="Message" 
+              >
+            <label for="Message">{{'Message'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <div class="field col-12 md:col-6 flex align-items-center">
+                
+                <p-inputSwitch formControlName="IsRead"
+                ></p-inputSwitch>
+                <span class="p-float-label flex">
+                <label for="IsRead">IsRead</label>
+                </span>
+                </div>               
+                       
+
+          
+
+
+            
+        </div>
+        
+
+
+
+        <div class="col-12 flex justify-content-end mt-4">
+            <button pButton pRipple class="p-button-outlined w-8rem mr-3" icon="pi pi-times" label="Cancel"
+                    (click)="CloseInstances($event)"></button>
+            <button pButton pRipple class="p-button-primary w-8rem" [disabled]="isLoading" [icon]="isLoading ? '' : 'pi pi-check'" label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}">
+                <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+            </button>
+        </div>        
+    </div>
+    </form>
+</div>

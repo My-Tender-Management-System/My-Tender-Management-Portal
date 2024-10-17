@@ -1,0 +1,367 @@
+<div class="layout-dashboard">
+    <div class="grid">
+        <!-- <div class="col-12 md:col-4">
+            <div class="card widget-overview-box widget-overview-box-2">
+                <span class="overview-title">
+                    SALES
+                </span>
+                <div class="flex justify-content-between">
+                    <div class="overview-detail flex justify-content-between">
+                        <div class="overview-badge flex justify-content-center align-items-center">
+                            <i class="pi pi-arrow-up"></i>
+                            <span>12%</span>
+                        </div>
+                        <div class="overview-text">
+                            120
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/layout/images/dashboard/value.svg">
+            </div>
+        </div>
+        <div class="col-12 md:col-4">
+            <div class="card widget-overview-box widget-overview-box-2">
+                <span class="overview-title">
+                    REVENUE
+                </span>
+                <div class="flex justify-content-between">
+                    <div class="overview-detail flex justify-content-between">
+                        <div class="overview-badge flex justify-content-center align-items-center">
+                            <i class="pi pi-arrow-up"></i>
+                            <span>4,2%</span>
+                        </div>
+                        <div class="overview-text">
+                            $4500
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/layout/images/dashboard/value.svg">
+            </div>
+        </div>
+        <div class="col-12 md:col-4">
+            <div class="card widget-overview-box widget-overview-box-3">
+                <span class="overview-title">
+                    ORDER QUANTITY
+                </span>
+                <div class="flex justify-content-between">
+                    <div class="overview-detail flex justify-content-between">
+                        <div class="overview-badge flex justify-content-center align-items-center">
+                            <i class="pi pi-minus"></i>
+                            <span>2,1%</span>
+                        </div>
+                        <div class="overview-text">
+                            1,620
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/layout/images/dashboard/quantity.svg">
+            </div>
+        </div> -->
+
+        <!-- Tender Count -->
+<div class="col-12 md:col-4">
+    <div class="card widget-overview-box widget-overview-box-2">
+        <span class="overview-title">TENDER COUNT</span>
+        <div class="flex justify-content-between">
+            <div class="overview-detail flex justify-content-between">
+                <div class="overview-badge flex justify-content-center align-items-center">
+                    <i class="pi pi-arrow-up"></i>
+                    <span>8%</span>
+                </div>
+                <div class="overview-text">{{ tenderCount }}</div>
+            </div>
+        </div>
+        <img src="assets/layout/images/dashboard/value.svg">
+    </div>
+</div>
+
+<!-- Company Count -->
+<div class="col-12 md:col-4">
+    <div class="card widget-overview-box widget-overview-box-2">
+        <span class="overview-title">COMPANY COUNT</span>
+        <div class="flex justify-content-between">
+            <div class="overview-detail flex justify-content-between">
+                <div class="overview-badge flex justify-content-center align-items-center">
+                    <i class="pi pi-arrow-up"></i>
+                    <span>5%</span>
+                </div>
+                <div class="overview-text">{{ companyCount }}</div>
+            </div>
+        </div>
+        <img src="assets/layout/images/dashboard/value.svg">
+    </div>
+</div>
+
+<!-- Equipment Count -->
+<div class="col-12 md:col-4">
+    <div class="card widget-overview-box widget-overview-box-3">
+        <span class="overview-title">EQUIPMENT COUNT</span>
+        <div class="flex justify-content-between">
+            <div class="overview-detail flex justify-content-between">
+                <div class="overview-badge flex justify-content-center align-items-center">
+                    <i class="pi pi-minus"></i>
+                    <span>1.5%</span>
+                </div>
+                <div class="overview-text">{{ equipmentCount }}</div>
+            </div>
+        </div>
+        <img src="assets/layout/images/dashboard/value.svg">
+    </div>
+</div>
+
+
+
+        <div class="col-12 md:col-8">
+            <!-- <div class="card widget-visitor-graph">
+                <div class="card-header">
+                    <span>Unique visitor graph</span>
+                    <p-dropdown [options]="visitorYear" [(ngModel)]="selectedVisitorYear" optionLabel="name" (onChange)="changeVisitorChart($event); visitor.refresh()"></p-dropdown>
+                </div>
+
+                <div class="graph-content grid">
+                    <div class="col-12 md:col-6">
+                        <h2>{{growth}}</h2>
+                        <h6>MRR GROWTH</h6>
+                        <p>Measure how fast you’re growing mothly recurring revenue. <a href="#">Learn more</a></p>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <h2>{{avgCustomer}}</h2>
+                        <h6>AVG. MRR/CUSTOMER</h6>
+                        <p>The revenue generated per account on a monthly or yearly basis. <a href="#">Learn more</a></p>
+                    </div>
+                </div>
+
+                <div class="graph">
+                    <h6>Revenue</h6>
+
+                    <p-chart #visitor type="bar" [data]="visitorChart" [options]="visitorChartOptions" id="visitor-chart"></p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <div class="card widget-timeline">
+                <div class="timeline-header flex justify-content-between align-items-center">
+                    <p>Transaction history</p>
+                    <div class="header-icons">
+                        <i class="pi pi-refresh"></i>
+                        <i class="pi pi-filter"></i>
+                    </div>
+                </div>
+                <div class="timeline-content">
+                    <p-timeline [value]="timelineEvents" styleClass="custimized-timeline">
+                        <ng-template pTemplate="marker" let-event>
+                            <span class="custom-marker" [style.backgroundColor]="event.iconColor">
+                                <i [ngClass]="event.icon"></i>
+                            </span>
+                        </ng-template>
+                        <ng-template pTemplate="content" let-event>
+                            <div class="flex align-items-center justify-content-between">
+                                <p>{{event.transaction}}</p>
+                                <h6 [style.color]="event.amountColor">{{event.amount}}</h6>
+                            </div>
+                            <span>{{event.date}}</span>
+                        </ng-template>
+                    </p-timeline>
+                </div>
+                <div class="timeline-footer flex align-items-center justify-content-center">
+                    <a href="#">View all transactions <i class="pi pi-arrow-down"></i></a>
+                </div>
+            </div> -->
+                <!-- <div class="card widget-revenue-graph">
+                    <div class="card-header">
+                        <span>Montly revenue</span>
+                        <p-dropdown [options]="revenueMonth" [(ngModel)]="selectedRevenueMonth" optionLabel="name" (onChange)="changeRevenueChart($event); revenue.refresh()"></p-dropdown>
+                    </div>
+    
+                    <div class="graph">
+                        <p-chart #revenue type="line" id="revenue-chart" [data]="revenueChart" [options]="revenueChartOptions"></p-chart>
+                    </div>
+                </div> -->
+
+        <div class="card">
+        <h5>Bar Chart</h5>
+        <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+        </div>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <div class="card widget-country-graph">
+                <div class="country-title">Tender Status</div>
+                <div class="country-graph">
+                    <div class="flex justify-content-center">
+                        <p-chart type="pie" id="country-chart" [data]="countryChart" [options]="countryChartOptions" [style]="{'width': '75%'}"></p-chart>
+                    </div>
+                </div>
+                <div class="country-content">
+                    <ul>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary700" style="box-shadow: 0px 0px 10px rgba(0, 208, 222, 0.3);"></div>
+                                <span>Approved</span>
+                            </div>
+                            <span>66%</span>
+                        </li>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary400" style="box-shadow: 0px 0px 10px rgba(135, 62, 254, 0.3)"></div>
+                                <span>Rejected</span>
+                            </div>
+                            <span>11%</span>
+                        </li>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary100"></div>
+                                <span>Pending</span>
+                            </div>
+                            <span>22%</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-12 md:col-4">
+            <div class="card widget-country-graph">
+                <div class="country-title">Tenders by Status</div>
+                <div class="country-graph">
+                    <div class="flex justify-content-center">
+                        <p-chart type="pie" id="tender-chart" [data]="tenderChartData" [options]="tenderChartOptions" [style]="{'width': '75%'}"></p-chart>
+                    </div>
+                </div>
+                <div class="country-content">
+                    <ul>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary700" style="box-shadow: 0px 0px 10px rgba(0, 208, 222, 0.3);"></div>
+                                <span>Open</span>
+                            </div>
+                            <span>{{ tenderData.openPercentage }}%</span>
+                        </li>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary400" style="box-shadow: 0px 0px 10px rgba(135, 62, 254, 0.3)"></div>
+                                <span>Closed</span>
+                            </div>
+                            <span>{{ tenderData.closedPercentage }}%</span>
+                        </li>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary100"></div>
+                                <span>Approved</span>
+                            </div>
+                            <span>{{ tenderData.approvedPercentage }}%</span>
+                        </li>
+                        <li class="flex justify-content-between align-items-center">
+                            <div class="flex justify-content-between align-items-center">
+                                <div class="color" [style.backgroundColor]="primary300"></div>
+                                <span>Rejected</span>
+                            </div>
+                            <span>{{ tenderData.rejectedPercentage }}%</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        
+
+
+        <!-- <div class="col-12 md:col-4">
+            <div class="card widget-performance">
+                <div class="header">
+                    <span>Quarterly win</span>
+                    <p class="subtitle">Top performances</p>
+                </div>
+                <div class="content">
+                    <ul>
+                        <li class="person-item">
+                            <p-avatar image="assets/layout/images/dashboard/ann.png" pBadge value="1" styleClass="mr-2"></p-avatar>
+                            <div class="person-info">
+                                <div class="amount">$94,815</div>
+                                <div class="name">Ann Vaccaro</div>
+                            </div>
+                        </li>
+                        <li class="person-item">
+                            <p-avatar image="assets/layout/images/dashboard/miracle.png" pBadge value="2" styleClass="mr-2"></p-avatar>
+                            <div class="person-info">
+                                <div class="amount">$78,985</div>
+                                <div class="name">Miracle Aminoff</div>
+                            </div>
+                        </li>
+                        <li class="person-item">
+                            <p-avatar image="assets/layout/images/dashboard/kaylynn.png" pBadge value="3" styleClass="mr-2"></p-avatar>
+                            <div class="person-info">
+                                <div class="amount">$53,611</div>
+                                <div class="name">Kaylynn Geidt</div>
+                            </div>
+                        </li>
+                        <li class="person-item">
+                            <p-avatar image="assets/layout/images/dashboard/angel.png" pBadge value="4" styleClass="mr-2"></p-avatar>
+                            <div class="person-info">
+                                <div class="amount">$25,338</div>
+                                <div class="name">Angel Rosser</div>
+                            </div>
+                        </li>
+                        <li class="person-item">
+                            <p-avatar image="assets/layout/images/dashboard/cristofer.png" pBadge value="5" styleClass="mr-2"></p-avatar>
+                            <div class="person-info">
+                                <div class="amount">$15,989</div>
+                                <div class="name">Cristofer Mango</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- <div class="col-12 lg:col-8">
+            <div class="card widget-customer-graph">
+                <div class="header">
+                    <div class="title">
+                        <span>Weekly new customers</span>
+                        <p-dropdown [options]="customerYear" [(ngModel)]="selectedCustomerYear" optionLabel="name" (onChange)="changeCustomerChart($event); customer.refresh()"></p-dropdown>
+                    </div>
+                    <p class="subtitle">Number of new customer are listed by weekly</p>
+                </div>
+
+                <div class="content grid p-nogutter">
+                    <div class="col-12 md:col-6 grid">
+                        <div class="col-12 md:col-4 flex align-items-center">
+                            <h2>{{customerMax}}</h2>
+                            <p>MAX</p>
+                        </div>
+                        <div class="col-12 md:col-4 flex align-items-center">
+                            <h2>{{customerMin}}</h2>
+                            <p>MIN</p>
+                        </div>
+                        <div class="col-12 md:col-4 flex align-items-center">
+                            <h2 style="color:#FC6161">{{customerAvg}}</h2>
+                            <p>AVARAGE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p-chart #customer type="bar" id="customer-chart" [data]="customerChart" [options]="customerChartOptions"></p-chart>
+            </div>
+        </div> -->
+
+        <!-- <div class="col-12 widget-customer-carousel">
+            <h6>Top customers</h6>
+            <p-carousel [value]="customerCarousel" [numVisible]="4" [numScroll]="1" [circular]="true" [responsiveOptions]="carouselResponsiveOptions">
+                <ng-template let-customer pTemplate="item">
+                    <div class="card mr-4">
+                        <div class="customer-item-content">
+                            <div class="mb-6">
+                                <img src="assets/layout/images/dashboard/{{customer.image}}.png" [alt]="customer.image" class="product-image" />
+                            </div>
+                            <div>
+                                <h4>{{customer.user}}</h4>
+                                <h5 class="mt-0 mb-3">{{customer.value}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div> -->
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<div class="p-4">
+    <form [formGroup]="otherPaymentsForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Amount"
+                        type="text"
+                        formControlName="Amount"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && otherPaymentsForm.controls['Amount'].invalid}"
+                    ></p-inputNumber>
+                    <label for="Amount">
+                        {{'Amount' | camelCaseToTitle}} 
+                        <span style="color: red;">*</span>  <!-- Red star for mandatory fields -->
+                    </label>
+                </span>
+            
+                <div
+                    *ngIf="submitted && otherPaymentsForm.controls['Amount'].errors"
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Amount' | camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="Date"
+                        appendTo="body"
+                        formControlName="Date"
+                        [showIcon]="true"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && otherPaymentsForm.controls['Date'].invalid}"
+                    ></p-calendar>
+                    <label for="Date">
+                        {{'Date' | camelCaseToTitle}} 
+                        <span style="color: red;">*</span>  <!-- Red star for mandatory fields -->
+                    </label>
+                </span>
+            
+                <div
+                    *ngIf="submitted && otherPaymentsForm.controls['Date'].errors"
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Date' | camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Description"
+                        type="text"
+                        pInputText
+                        formControlName="Description"
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && otherPaymentsForm.controls['Description'].invalid}"
+                    />
+                    <label for="Description">
+                        {{'Description' | camelCaseToTitle}} 
+                        <span style="color: red;">*</span>  <!-- Red star for mandatory fields -->
+                    </label>
+                </span>
+            
+                <div
+                    *ngIf="submitted && otherPaymentsForm.controls['Description'].errors"
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Description' | camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <p-toast />
+                <p-fileUpload
+                    name="file"
+                    url="https://tyk-apim.cgaas.ai/gateway/file-mgt-app1330/create/file"
+                    (onUpload)="onUpload($event)"
+                    (onSelect)="onFileSelect($event)"
+                    [multiple]="false"
+                    (onClear)="onFilesClear()"
+                    method="post"
+                    [maxFileSize]="2000000"
+                >
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">
+                                {{ file.name }} - {{ file.size }} bytes
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId"
+                        >{{'TenderId'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !otherPaymentsForm.valid" 
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .red-star {
+    color: red;
+}
+
+</style>

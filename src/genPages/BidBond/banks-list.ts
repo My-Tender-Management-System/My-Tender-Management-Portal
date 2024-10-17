@@ -1,0 +1,27 @@
+export const BANKS_LIST = [
+    { label: 'Amana Bank PLC', value: 'Amana Bank PLC' },
+    { label: 'Bank of Ceylon', value: 'Bank of Ceylon' },
+    { label: 'Bank of China Ltd', value: 'Bank of China Ltd' },
+    { label: 'Cargills Bank PLC', value: 'Cargills Bank PLC' },
+    { label: 'Citibank, N.A', value: 'Citibank, N.A' },
+    { label: 'Commercial Bank of Ceylon PLC', value: 'Commercial Bank of Ceylon PLC' },
+    { label: 'Deutsche Bank AG, Colombo Branch', value: 'Deutsche Bank AG, Colombo Branch' },
+    { label: 'DFCC Bank PLC', value: 'DFCC Bank PLC' },
+    { label: 'Habib Bank Ltd', value: 'Habib Bank Ltd' },
+    { label: 'Hatton National Bank PLC', value: 'Hatton National Bank PLC' },
+    { label: 'Indian Bank', value: 'Indian Bank' },
+    { label: 'Indian Overseas Bank', value: 'Indian Overseas Bank' },
+    { label: 'MCB Bank Ltd', value: 'MCB Bank Ltd' },
+    { label: 'National Development Bank PLC', value: 'National Development Bank PLC' },
+    { label: 'Nations Trust Bank PLC', value: 'Nations Trust Bank PLC' },
+    { label: 'Pan Asia Banking Corporation PLC', value: 'Pan Asia Banking Corporation PLC' },
+    { label: 'People\'s Bank', value: 'People\'s Bank' },
+    { label: 'Public Bank Berhad', value: 'Public Bank Berhad' },
+    { label: 'Sampath Bank PLC', value: 'Sampath Bank PLC' },
+    { label: 'Seylan Bank PLC', value: 'Seylan Bank PLC' },
+    { label: 'Standard Chartered Bank', value: 'Standard Chartered Bank' },
+    { label: 'State Bank of India', value: 'State Bank of India' },
+    { label: 'The Hongkong & Shanghai Banking Corporation Ltd (HSBC)', value: 'The Hongkong & Shanghai Banking Corporation Ltd (HSBC)' },
+    { label: 'Union Bank of Colombo PLC', value: 'Union Bank of Colombo PLC' }
+  ];
+  

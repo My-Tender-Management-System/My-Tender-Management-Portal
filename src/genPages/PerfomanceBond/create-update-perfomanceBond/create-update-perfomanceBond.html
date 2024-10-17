@@ -1,0 +1,193 @@
+<div class="p-4">
+    <form [formGroup]="perfomanceBondForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Name"
+                        type="text"
+                        pInputText
+                        formControlName="Name"
+                    />
+                    <label for="Name">{{'Name'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Amount"
+                        type="text"
+                        formControlName="Amount"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && perfomanceBondForm.controls['Amount'].invalid}"
+                    ></p-inputNumber>
+                    <label for="Amount">
+                        {{'Amount'| camelCaseToTitle}} 
+                        <span style="color: red;">*</span> <!-- Red star for mandatory fields -->
+                    </label>
+                </span>
+            
+                <div *ngIf="submitted && perfomanceBondForm.controls['Amount'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'Amount' | camelCaseToTitle}} is required.
+                </div>
+            </div>
+            
+
+            
+
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="ValidityPeriod"
+                        appendTo="body"
+                        formControlName="ValidityPeriod"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="ValidityPeriod"
+                        >{{'ValidityPeriod'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        appendTo="body"
+                        formControlName="rangeDates"
+                        selectionMode="range"
+                        [showIcon]="true"
+                        [readonlyInput]="true"
+                        (onSelect)="onDateSelect($event)"
+                    ></p-calendar>
+                    <label for="ValidityPeriod">{{'ValidityPeriod' | camelCaseToTitle}}</label>
+                </span>
+            </div>
+            
+
+            <!-- <div class="field col-12 md:col-6 mt-3"></div>
+                <span class="p-float-label">
+                    <p-calendar
+                        appendTo="body"
+                        formControlName="rangeDates"
+                        selectionMode="range"
+                        [showIcon]="true"
+                        [readonlyInput]="true"
+                        (onSelect)="onDateSelect($event)"
+                    ></p-calendar>
+                    <label for="ValidityPeriod">{{ 'ValidityPeriod' | camelCaseToTitle }}</label>
+                </span>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="RefNo"
+                        type="text"
+                        pInputText
+                        formControlName="RefNo"
+                    />
+                    <label for="RefNo">{{'RefNo'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="RequestedDate"
+                        appendTo="body"
+                        formControlName="RequestedDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="RequestedDate"
+                        >{{'RequestedDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="RequiredDate"
+                        appendTo="body"
+                        formControlName="RequiredDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="RequiredDate"
+                        >{{'RequiredDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                    id="ReceivedDate"
+                        appendTo="body"
+                        formControlName="ReceivedDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                   
+                    <label for="ReceivedDate"
+                        >{{'ReceivedDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="CollectedBy"
+                        type="text"
+                        pInputText
+                        formControlName="CollectedBy"
+                    />
+                    <label for="CollectedBy"
+                        >{{'CollectedBy'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId"
+                        >{{'TenderId'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !perfomanceBondForm.valid" 
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

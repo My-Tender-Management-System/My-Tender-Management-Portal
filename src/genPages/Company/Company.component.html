@@ -1,0 +1,66 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="CompanyData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Name','Location','ContactPerson','ContactNumber',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'Company'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <!-- <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div> -->
+                    <button *ngIf="hasAccess('DTO2813', 'CREATE') && dtoName" (click)="showCreateCompanyDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Company"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Name" class="white-space-nowrap" style="width:35%">{{'Name'| camelCaseToTitle}} <p-sortIcon field="Name"></p-sortIcon></th>
+<th pSortableColumn="Location" class="white-space-nowrap" style="width:35%">{{'Location'| camelCaseToTitle}} <p-sortIcon field="Location"></p-sortIcon></th>
+<th pSortableColumn="ContactPerson" class="white-space-nowrap" style="width:35%">{{'ContactPerson'| camelCaseToTitle}} <p-sortIcon field="ContactPerson"></p-sortIcon></th>
+<th pSortableColumn="ContactNumber" class="white-space-nowrap" style="width:35%">{{'ContactNumber'| camelCaseToTitle}} <p-sortIcon field="ContactNumber"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-CompanyData>
+            <tr>
+                <td style="width:25%; min-width:10rem;">
+{{CompanyData.Name ? (CompanyData.Name.length > 20 ? (CompanyData.Name | slice:0:20) + '...' : CompanyData.Name) : '-'}} 
+</td>
+<td style="width:25%; min-width:10rem;">
+{{CompanyData.Location ? (CompanyData.Location.length > 20 ? (CompanyData.Location | slice:0:20) + '...' : CompanyData.Location) : '-'}} 
+</td>
+<td style="width:25%; min-width:10rem;">
+{{CompanyData.ContactPerson ? (CompanyData.ContactPerson.length > 20 ? (CompanyData.ContactPerson | slice:0:20) + '...' : CompanyData.ContactPerson) : '-'}} 
+</td>
+<td style="width:25%; min-width:10rem;">
+{{CompanyData.ContactNumber}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2813', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditCompanyDialog(CompanyData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2813', 'DELETE')" (click)="deleteCompany(CompanyData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

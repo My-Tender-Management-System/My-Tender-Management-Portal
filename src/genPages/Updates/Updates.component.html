@@ -1,0 +1,193 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="UpdatesData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'Date',
+            'Remark',
+            'Category',
+            'FollowedBy',
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{ 'Updates' | camelCaseToTitle }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <div>
+                        <!-- <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label> -->
+                    </div>
+                    <button
+                        *ngIf="hasAccess('DTO2804', 'CREATE') && dtoName"
+                        (click)="showCreateUpdatesDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Updates"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="Status" class="white-space-nowrap" style="width:35%">{{'Status'| camelCaseToTitle}} <p-sortIcon field="Status"></p-sortIcon></th> -->
+                <th
+                    pSortableColumn="Date"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Date" | camelCaseToTitle }}
+                    <p-sortIcon field="Date"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Remark"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Remark" | camelCaseToTitle }}
+                    <p-sortIcon field="Remark"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Category"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Category" | camelCaseToTitle }}
+                    <p-sortIcon field="Category"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="FollowedBy"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "FollowedBy" | camelCaseToTitle }}
+                    <p-sortIcon field="FollowedBy"></p-sortIcon>
+                </th>
+                <!-- <th
+                    pSortableColumn="TenderId"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "TenderId" | camelCaseToTitle }}
+                    <p-sortIcon field="TenderId"></p-sortIcon>
+                </th> -->
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-UpdatesData>
+            <tr>
+                <!-- <td style="width:16%; min-width:10rem;">
+{{UpdatesData.Status}} 
+</td> -->
+                <td style="width: 16%; min-width: 10rem">
+                    {{ UpdatesData.Date | date : "dd-MM-yyyy" }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{ UpdatesData.Remark }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        UpdatesData.Category
+                            ? UpdatesData.Category.length > 20
+                                ? (UpdatesData.Category | slice : 0 : 20) +
+                                  "..."
+                                : UpdatesData.Category
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        UpdatesData.FollowedBy
+                            ? UpdatesData.FollowedBy.length > 20
+                                ? (UpdatesData.FollowedBy | slice : 0 : 20) +
+                                  "..."
+                                : UpdatesData.FollowedBy
+                            : "-"
+                    }}
+                </td>
+                <!-- <td style="width: 16%; min-width: 10rem">
+                    {{
+                        UpdatesData.TenderId
+                            ? UpdatesData.TenderId.length > 20
+                                ? (UpdatesData.TenderId | slice : 0 : 20) +
+                                  "..."
+                                : UpdatesData.TenderId
+                            : "-"
+                    }}
+                </td> -->
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2804', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="showEditUpdatesDialog(UpdatesData)"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2804', 'DELETE')"
+                            (click)="deleteUpdates(UpdatesData)"
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

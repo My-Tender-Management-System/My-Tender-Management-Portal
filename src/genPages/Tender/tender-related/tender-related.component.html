@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="dock-window" [ngClass]="position" *ngIf="isDockVisible">
+    <p-dock [model]="items" [position]="position">
+      <ng-template pTemplate="item" let-item>
+        <div class="dock-item">
+          <img [src]="item.icon" [alt]="item.label" />
+          <span class="icon-label">{{ item.label }}</span> 
+        </div>
+      </ng-template>
+    </p-dock>
+  </div>
+
+  <div class="card-container" *ngIf="selectedComponent">
+    <div class="card">
+      <div class="card-header">{{ selectedItemLabel }}</div>
+      <div class="card-body">
+        
+        <ng-container *ngIf="selectedComponent === 'PaymentsComponent'">
+          <app-paymentsAll [tenderId]="tenderId"></app-paymentsAll>
+        </ng-container>
+
+        <ng-container *ngIf="selectedComponent === 'EquipmentDetailsComponent'">
+          <app-bid-EquipmentDetail [tenderId]="tenderId"></app-bid-EquipmentDetail>
+        </ng-container>
+
+        <ng-container *ngIf="selectedComponent === 'OtherRequirementsComponent'">
+          <app-other-requirements [tenderId]="tenderId"></app-other-requirements>
+        </ng-container>
+
+        <ng-container *ngIf="selectedComponent === 'TenderTeamComponent'">
+          <app-team [tenderId]="tenderId"></app-team>
+        </ng-container>
+
+        <ng-container *ngIf="selectedComponent === 'EvaluationCommitteeComponent'">
+          <app-evaluation-commitee [tenderId]="tenderId"></app-evaluation-commitee>
+        </ng-container>
+
+        <ng-container *ngIf="selectedComponent === 'UpdatesComponent'">
+          <app-bid-Updates [tenderId]="tenderId"></app-bid-Updates>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>

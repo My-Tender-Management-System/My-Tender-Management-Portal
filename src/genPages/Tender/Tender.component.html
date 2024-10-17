@@ -1,0 +1,427 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-dataView
+        #dv
+        [value]="TenderData"
+        [layout]="layout"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true"
+        [rows]="10"
+    >
+        <ng-template pTemplate="header">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <p-dataViewLayoutOptions
+                        [layout]="layout"
+                    ></p-dataViewLayoutOptions>
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+
+                    <!-- <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div> -->
+
+                    <button
+                        *ngIf="hasAccess('DTO2791', 'CREATE') && dtoName"
+                        (click)="showCreateTenderDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Tender"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template let-TenderData pTemplate="listItem">
+            <div class="col-12">
+                <div
+                    class="p-card p-4 border-1 surface-border surface-card border-round mb-3"
+                >
+                    <div
+                        class="flex flex-column xl:flex-row xl:align-items-start gap-4"
+                    >
+                        <div
+                            class="flex flex-column sm:flex-row justify-content-between align-items-start flex-1 gap-4"
+                        >
+                            <div
+                                class="flex flex-column align-items-start gap-3"
+                            >
+                                <div
+                                    class="text-xl font-bold"
+                                    style="
+                                        font-weight: 900;
+                                        color: #000;
+                                        text-shadow: 1px 1px 2px
+                                            rgba(0, 0, 0, 0.1);
+                                    "
+                                >
+                                    {{
+                                        TenderData.Title
+                                            ? TenderData.Title.length > 20
+                                                ? (TenderData.Title
+                                                      | slice : 0 : 20) + "..."
+                                                : TenderData.Title
+                                            : "-"
+                                    }}
+                                </div>
+
+                                <div class="font-semibold">
+                                    <strong>Opening Date:</strong>
+                                    {{
+                                        TenderData.OpeningDate
+                                            | date : "dd-MM-yyyy"
+                                    }}
+                                </div>
+                                <div class="font-semibold">
+                                    <strong>Closing Date:</strong>
+                                    {{
+                                        TenderData.ClosingDate
+                                            | date : "dd-MM-yyyy"
+                                    }}
+                                </div>
+                                <div class="font-semibold">
+                                    <strong>Status:</strong>
+                                    {{ TenderData.Status }}
+                                </div>
+
+                                <div
+                                    class="font-medium"
+                                    style="font-size: 1.1rem"
+                                >
+                                    <strong> Tender Score:</strong>
+                                    {{ TenderData.TenderScore }}
+                                </div>
+
+                                <!-- <div class="flex align-items-center gap-3">
+                                    <p-progressBar
+                                        [value]="50"
+                                        styleClass="h-1rem"
+                                    ></p-progressBar>
+                                </div> -->
+
+                                <div class="flex gap-2 mt-3">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-eye"
+                                        label=""
+                                        class="p-button-primary p-button-rounded"
+                                        (click)="
+                                            showDialogRelationship(
+                                                TenderData.TenderId
+                                            )
+                                        "
+                                        pTooltip="View"
+                                    ></button>
+
+                                    <!-- Dialog Component -->
+                                    <p-dialog
+                                        header="Tender"
+                                        [resizable]="false"
+                                        [modal]="true"
+                                        [maximizable]="true"
+                                        appendTo="body"
+                                        [(visible)]="relationshipDialogVisible"
+                                        [style]="{ width: '90vw' }"
+                                        [contentStyle]="{ height: '500px' }"
+                                    >
+                                        <app-tender-related
+                                            [tenderId]="selectedTenderId"
+                                        ></app-tender-related>
+                                    </p-dialog>
+
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-plus"
+                                        *ngIf="hasAccess('DTO2791', 'VIEW')"
+                                        class="p-button-secondary p-button-rounded p-button-outlined mr-2"
+                                        (click)="
+                                            showViewTenderStatusDialog(
+                                                TenderData
+                                            )
+                                        "
+                                    ></button>
+
+                                    <button
+                                        pButton
+                                        pRipple
+                                        class="p-button-primary p-button-rounded p-button-outlined mr-2"
+                                        icon="pi pi-download"
+                                        (click)="
+                                            downloadTenderPDF(
+                                                TenderData.TenderId
+                                            )
+                                        "
+                                        pTooltip="Download Tender Report"
+                                    ></button>
+
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-forward"
+                                        class="p-button-primary p-button-rounded p-button-outlined"
+                                        (click)="
+                                            NavigateToProgress(
+                                                TenderData.TenderId
+                                            )
+                                        "
+                                        pTooltip="Progress"
+                                    ></button>
+
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-pencil"
+                                        *ngIf="hasAccess('DTO2791', 'UPDATE')"
+                                        class="p-button-primary p-button-rounded p-button-outlined mr-2"
+                                        pTooltip="Edit"
+                                        (click)="
+                                            showEditTenderDialog(TenderData)
+                                        "
+                                    ></button>
+
+                                    <button
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-trash"
+                                        class="p-button-danger p-button-rounded p-button-outlined"
+                                        *ngIf="hasAccess('DTO2791', 'DELETE')"
+                                        (click)="deleteTender(TenderData)"
+                                        pTooltip="Delete"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template let-TenderData pTemplate="gridItem">
+            <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
+                <div
+                    class="p-4 border-1 surface-border surface-card border-round shadow-2"
+                >
+                    <!-- Header Section -->
+                    <div class="flex justify-content-center align-items-center mb-4" style="max-width: 100%; overflow: hidden;">
+                        <span
+                            class="text-2xl font-bold"
+                            style="
+                                font-size: 1.8rem; 
+                                font-weight: 900; 
+                                color: #000; 
+                                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+                                white-space: nowrap; 
+                                overflow: hidden; 
+                                text-overflow: ellipsis;
+                            "
+                        >
+                            {{ TenderData.Title }}
+                        </span>
+                    </div>
+                    
+                    
+
+                    <!-- Content Section with Flex Layout for Text and Image -->
+                    <div
+                        class="flex justify-content-between align-items-start gap-1"
+                    >
+                        <!-- Tender Details -->
+                        <div class="flex-grow-1">
+                            <div class="font-medium" style="font-size: 1.1rem">
+                                <span>Opening Date: </span>
+                                <span>{{
+                                    TenderData.OpeningDate | date : "dd-MM-yyyy"
+                                }}</span>
+                            </div>
+
+                            <div class="font-medium" style="font-size: 1.1rem">
+                                <span>Closing Date: </span>
+                                <span>{{
+                                    TenderData.ClosingDate | date : "dd-MM-yyyy"
+                                }}</span>
+                            </div>
+
+                            <div class="font-medium" style="font-size: 1.1rem">
+                                <span>Status: </span>
+                                <span
+                                    [ngClass]="{
+                                        'text-success':
+                                            TenderData.Status === 'Pending',
+                                        'text-danger':
+                                            TenderData.Status === 'completed'
+                                    }"
+                                >
+                                    {{ TenderData.Status }}
+                                </span>
+                            </div>
+
+                            <div class="font-medium" style="font-size: 1.1rem">
+                                Tender Score: {{ TenderData.TenderScore }}
+                            </div>
+
+                            <!-- <div *ngIf="status" class="status-box">
+                                Condition: {{ status }} 
+                              </div> -->
+                        </div>
+
+                        <!-- Image Section - Align to Right and Small Image -->
+                        <div>
+                            <img
+                                *ngIf="
+                                    TenderData.Status === 'completed';
+                                    else requestedImg
+                                "
+                                src="../../assets/images/Tender.svg"
+                                alt="Awarded Tender"
+                                class="border-round shadow-1"
+                                style="
+                                    width: 80px;
+                                    filter: invert(30%) sepia(100%)
+                                        saturate(5000%) hue-rotate(190deg)
+                                        brightness(100%) contrast(100%);
+                                "
+                            />
+
+                            <ng-template #requestedImg>
+                                <img
+                                    src="../../assets/images/Tender.svg"
+                                    alt="Requested Tender"
+                                    class="border-round shadow-1"
+                                    style="width: 80px"
+                                />
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- <div class="mt-2">
+                        <p-progressBar [tenderId]="tenderId"
+                                       [value]="20"
+                                       styleClass="h-1rem">
+                        </p-progressBar>
+                    </div> -->
+
+                    <!-- Action Buttons Section -->
+
+                    <!-- <button
+                            pButton
+                            pRipple
+                            icon="pi pi-eye"
+                            class="p-button-primary p-button-rounded mr-2"
+                            (click)="
+                                showSelectRelationShip(
+                                    TenderData,
+                                    'DTO2791',
+                                    TenderData.TenderId
+                                )
+                            "
+                            pTooltip="View"
+                        ></button> -->
+                    <div class="flex gap-2 mt-3 justify-content-end">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-eye"
+                            label=""
+                            class="p-button-primary p-button-rounded"
+                            (click)="
+                                showDialogRelationship(TenderData.TenderId)
+                            "
+                            pTooltip="View"
+                        ></button>
+
+                        <!-- Dialog Component -->
+                        <p-dialog
+                            header="Tender"
+                            [resizable]="false"
+                            [modal]="true"
+                            [maximizable]="true"
+                            appendTo="body"
+                            [(visible)]="relationshipDialogVisible"
+                            [style]="{ width: '80vw' }"
+                            [contentStyle]="{ height: '460px' }"
+                        >
+                            <app-tender-related
+                                [tenderId]="selectedTenderId"
+                            ></app-tender-related>
+                        </p-dialog>
+
+                        <!-- <button
+                            pButton
+                            pRipple
+                            class="p-button-primary p-button-rounded p-button-outlined mr-2"
+                            icon="pi pi-download"
+                            (click)="
+                                checkTenderNotification(TenderData.TenderId)
+                            "
+                        ></button> -->
+
+                        <button
+                            pButton
+                            pRipple
+                            class="p-button-primary p-button-rounded p-button-outlined mr-2"
+                            icon="pi pi-download"
+                            pTooltip="Download Tender Report"
+                            (click)="downloadTenderPDF(TenderData.TenderId)"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-forward"
+                            class="p-button-primary p-button-rounded p-button-outlined"
+                            (click)="NavigateToProgress(TenderData.TenderId)"
+                            pTooltip="Progress"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2791', 'UPDATE')"
+                            class="p-button-primary p-button-rounded p-button-outlined mr-2"
+                            pTooltip="Edit"
+                            (click)="showEditTenderDialog(TenderData)"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-danger p-button-rounded p-button-outlined"
+                            *ngIf="hasAccess('DTO2791', 'DELETE')"
+                            (click)="deleteTender(TenderData)"
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+</div>

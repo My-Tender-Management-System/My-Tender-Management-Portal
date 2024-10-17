@@ -1,0 +1,73 @@
+<!-- <p-toast></p-toast> -->
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="TenderTeamData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['TeamName','TeamLead','NumberOfMembers','IsActive','Members',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'TenderTeam'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <!-- <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div> -->
+                    <!-- <button *ngIf="hasAccess('DTO2805', 'CREATE') && dtoName" (click)="showCreateTenderTeamDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Tender Team"></button> -->
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="TeamName" class="white-space-nowrap" style="width:35%">{{'TeamName'| camelCaseToTitle}} <p-sortIcon field="TeamName"></p-sortIcon></th>
+<th pSortableColumn="TeamLead" class="white-space-nowrap" style="width:35%">{{'TeamLead'| camelCaseToTitle}} <p-sortIcon field="TeamLead"></p-sortIcon></th>
+<th pSortableColumn="NumberOfMembers" class="white-space-nowrap" style="width:35%">{{'NumberOfMembers'| camelCaseToTitle}} <p-sortIcon field="NumberOfMembers"></p-sortIcon></th>
+<th pSortableColumn="IsActive" class="white-space-nowrap" style="width:35%">{{'IsActive'| camelCaseToTitle}} <p-sortIcon field="IsActive"></p-sortIcon></th>
+<th pSortableColumn="Members" class="white-space-nowrap" style="width:35%">{{'Members'| camelCaseToTitle}} <p-sortIcon field="Members"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-TenderTeamData>
+            <tr>
+                <td style="width:20%; min-width:10rem;">
+{{TenderTeamData.TeamName ? (TenderTeamData.TeamName.length > 20 ? (TenderTeamData.TeamName | slice:0:20) + '...' : TenderTeamData.TeamName) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{TenderTeamData.TeamLead ? (TenderTeamData.TeamLead.length > 20 ? (TenderTeamData.TeamLead | slice:0:20) + '...' : TenderTeamData.TeamLead) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{TenderTeamData.NumberOfMembers}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{TenderTeamData.IsActive}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{TenderTeamData.Members ? (TenderTeamData.Members.length > 20 ? (TenderTeamData.Members | slice:0:20) + '...' : TenderTeamData.Members) : '-'}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <!-- <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2805', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditTenderTeamDialog(TenderTeamData)"></button> -->
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2805', 'DELETE')" (click)="deleteTenderTeam(TenderTeamData)"   pTooltip="Delete"></button>
+                        
+                        
+                        <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning ml-2"
+                            (click)="showSelectRelationShip(TenderTeamData,'DTO2805',TenderTeamData.TenderTeamId)"   pTooltip="View"></button> -->
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

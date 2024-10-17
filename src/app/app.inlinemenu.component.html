@@ -1,0 +1,29 @@
+<div [ngClass]="{'layout-inline-menu': true, 'layout-inline-menu-active':appMain.activeInlineProfile}" *ngIf="!appMain.isMobile() && (appMain.isStatic() || appMain.isSlim() || appMain.isSidebar())">
+    <a class="layout-inline-menu-action" (click)="appMain.activeInlineProfile = !appMain.activeInlineProfile">
+        <img [src]="ProfileData?.picture" alt="avatar" style="width: 44px; height: 44px;" *ngIf="ProfileData?.picture">
+        <img src="https://evolza-org-bucket.s3.amazonaws.com/cgaas_logo/empty-profile.png" alt="avatar" style="width: 44px; height: 44px;" *ngIf="!ProfileData?.picture">
+        <span class="layout-inline-menu-text">{{ProfileData?.name}}</span>
+        <i class="layout-inline-menu-icon pi pi-angle-down"></i>
+    </a>
+
+    <ul class="layout-inline-menu-action-panel" [@inline]="appMain.activeInlineProfile ? 'visibleAnimated' : 'hiddenAnimated'">
+        <li class="layout-inline-menu-action-item">
+            <a (click)="logout()">
+                <i class="pi pi-power-off pi-fw"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item">
+            <a>
+                <i class="pi pi-cog pi-fw"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item">
+            <a routerLink="/user-profile">
+                <i class="pi pi-user pi-fw"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+    </ul>
+</div>

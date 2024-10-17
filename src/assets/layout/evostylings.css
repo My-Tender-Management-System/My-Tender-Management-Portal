@@ -1,0 +1,408 @@
+
+p-inputnumber.ng-dirty.ng-validR > .p-inputnumber > .p-inputtext,.p-inputtext.ng-dirty.ng-validR,p-inputnumber.ng-dirty.ng-validR > .p-inputnumber > .p-inputtext {
+    border-color:var(--green-500) !important;
+}
+
+.profile-photo {
+    width: 200px; /* Adjust the size as needed */
+    height: 200px;
+    border-radius: 50%; /* Creates the rounded effect */
+    overflow: hidden; /* Clips the image within the rounded container */
+    margin: 0 auto; /* Centers the container */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+}
+.profile-photo img {
+    width: 100%; /* Ensures the image fits within the container */
+    height: 100%;
+    object-fit: cover; /* Preserves the image aspect ratio and covers the container */
+}
+.profile-photo-sidebar {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px;
+    border-radius: 50%; /* Creates the rounded effect */
+    overflow: hidden; /* Clips the image within the rounded container */
+    margin: 0 auto; /* Centers the container */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+}
+.profile-photo-sidebar img {
+    width: 100%; /* Ensures the image fits within the container */
+    height: 100%;
+    object-fit: cover; /* Preserves the image aspect ratio and covers the container */
+}
+
+
+.profile-card {
+    position: relative;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    background-clip: border-box;
+    > hr {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+  .profile-card-body {
+    padding: 1.5rem;
+    flex: 1 1 auto;
+  }
+  .profile-card-header {
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    &:first-child {
+      border-radius: 12px 12px 0px 0px;
+    }
+  }
+
+  .cover-image-container {
+    width: 100%;
+    height: 30vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 12px 12px 0px 0px;
+  }
+
+  .cover-placeholder-container {
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px 12px 0px 0px;
+  }
+
+  .shadow {
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+  }
+
+  .card-profile-image {
+    img {
+      border: 8px solid #efefef;
+      box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+      position: absolute;
+      width: 250px;
+      object-fit: cover;
+      height: 200px;
+      transition: all 0.15s ease;
+      transform: translate(-50%, -30%);
+      border-radius: 0.375rem;
+      &:hover {
+        transform: translate(-50%, -33%);
+      }
+    }
+    position: relative;
+  }
+
+  .avatar-upload {
+    position: relative;
+    max-width: 205px;
+    padding-left: 0px;
+    .avatar-edit {
+      position: absolute;
+      left: 170px;
+      top: -10px;
+      z-index: 1;
+
+      input {
+        display: none;
+        + label {
+          display: inline-block;
+          width: 34px;
+          height: 34px;
+          margin-bottom: 0;
+          border-radius: 100%;
+          background: #ffffff;
+          border: 1px solid transparent;
+          box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+          cursor: pointer;
+          font-weight: normal;
+          transition: all 0.2s ease-in-out;
+          &:hover {
+            background: #f1f1f1;
+            border-color: #d6d6d6;
+          }
+          &:after {
+            content: "\e942";
+            font-family: "PrimeIcons";
+            color: #757575;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            margin: auto;
+          }
+        }
+      }
+    }
+    .avatar-preview {
+      margin-left: 25px;
+      border: 8px solid #efefef;
+      box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+      position: absolute;
+      width: 180px;
+      object-fit: cover;
+      height: 180px;
+      transition: all 0.15s ease;
+      transform: translateY(-70%);
+      &:hover {
+        transform: translateY(-75%);
+      }
+
+      border-radius: 100%;
+
+      > div {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+  }
+
+  .cover-edit {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+
+    input {
+      display: none;
+      + label {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 0;
+        border-radius: 100%;
+        background: #ffffff;
+        border: 1px solid transparent;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        font-weight: normal;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          background: #f1f1f1;
+          border-color: #d6d6d6;
+        }
+        &:after {
+          content: "\e942";
+          font-family: "PrimeIcons";
+          color: #757575;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          text-align: center;
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .card-profile-details {
+    margin: 25px;
+    margin-top: 70px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 576px) {
+    .avatar-upload {
+      position: relative;
+      max-width: 205px;
+      padding-left: 0px;
+      .avatar-edit {
+        position: absolute;
+        z-index: 1;
+
+        input {
+          display: none;
+          + label {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 0;
+            border-radius: 100%;
+            background: #ffffff;
+            border: 1px solid transparent;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            font-weight: normal;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+              background: #f1f1f1;
+              border-color: #d6d6d6;
+            }
+            &:after {
+              content: "\e942";
+              font-family: "PrimeIcons";
+              color: #757575;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+              text-align: center;
+              margin: auto;
+            }
+          }
+        }
+      }
+      .avatar-preview {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (max-width: 431px) {
+
+  .card-profile-details {
+      margin: 5px;
+      margin-top: 70px;
+      margin-bottom: 0;
+      padding-left:0;
+      display: flex;
+      flex-direction: column;
+  }
+    .profile-card-header {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      background-color: #fff;
+      &:first-child {
+        border-radius: 12px 12px 0px 0px;
+      }
+    }
+
+    .cover-image-container {
+      width: 100%;
+      height: 15vh;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 12px 12px 0px 0px;
+    }
+
+    .cover-placeholder-container {
+      width: 100%;
+      height: 20vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px 12px 0px 0px;
+    }
+    .cover-placeholder-container img {
+      width: 80%;
+      height: 50%;
+    }
+
+    .avatar-upload {
+      position: relative;
+      max-width: 205px;
+      padding-left: 0px;
+      .avatar-edit {
+        position: absolute;
+        left: 70px;
+        top: -10px;
+        z-index: 1;
+
+        input {
+          display: none;
+          + label {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 0;
+            border-radius: 100%;
+            background: #ffffff;
+            border: 1px solid transparent;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            font-weight: normal;
+            transition: all 0.2s ease-in-out;
+            &:hover {
+              background: #f1f1f1;
+              border-color: #d6d6d6;
+            }
+            &:after {
+              content: "\e942";
+              font-family: "PrimeIcons";
+              color: #757575;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+              text-align: center;
+              margin: auto;
+            }
+          }
+        }
+      }
+    }
+
+    .avatar-preview {
+      margin-left: 25px;
+      border: 8px solid #efefef;
+      box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+      position: absolute;
+      width: 100px !important;
+      object-fit: cover;
+      height: 100px !important;
+      transition: all 0.15s ease;
+      transform: translateY(-70%);
+      &:hover {
+        transform: translateY(-75%);
+      }
+
+      border-radius: 100%;
+
+      > div {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+  }
+
+.image-input-wrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 5%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 55%;
+    transition: .5s ease;
+    background-color: #008CBA;
+  }
+
+.button-transparent {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+}
+
+
+.frame {
+  border: 15px solid black; /* Adjust outer border width and color as needed */
+  border-radius: 50%; /* Adjust outer border radius to control the curvature */
+  overflow: hidden; /* Ensure the inner border doesn't overflow */
+}
+
+.frame img {
+  border-radius: 50%; /* Adjust inner border radius to control the curvature */
+}

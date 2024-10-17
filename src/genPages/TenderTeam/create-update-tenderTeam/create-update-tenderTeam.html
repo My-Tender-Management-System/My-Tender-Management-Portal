@@ -1,0 +1,113 @@
+<div class="p-4">
+    <form [formGroup]="tenderTeamForm" (ngSubmit)="save()">
+    <div class="grid p-fluid formgrid">
+
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="TeamName" type="text" pInputText formControlName="TeamName" 
+               [ngClass]="{'ng-invalid ng-dirty':submitted && tenderTeamForm.controls['TeamName'].invalid}">
+            <label for="TeamName">{{'TeamName'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+                <div *ngIf="submitted && tenderTeamForm.controls['TeamName'].errors "class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'TeamName'| camelCaseToTitle}} is required.
+                </div>
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="TeamLead" type="text" pInputText formControlName="TeamLead" 
+              >
+            <label for="TeamLead">{{'TeamLead'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+            <span class="p-float-label">
+              <p-inputNumber id="NumberOfMembers" type="text"  formControlName="NumberOfMembers"
+              ></p-inputNumber>
+            <label for="NumberOfMembers">{{'NumberOfMembers'| camelCaseToTitle}}</label>
+            </span>
+          
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <div class="field col-12 md:col-6 flex align-items-center">
+                
+                <p-inputSwitch formControlName="IsActive"
+                ></p-inputSwitch>
+                <span class="p-float-label flex">
+                <label for="IsActive">IsActive</label>
+                </span>
+                </div>               
+                       
+
+          
+
+
+            
+        </div>
+        
+
+        <div class="field col-12 md:col-6 mt-3">
+
+    
+          
+          <span class="p-float-label">
+              <input id="Members" type="text" pInputText formControlName="Members" 
+               [ngClass]="{'ng-invalid ng-dirty':submitted && tenderTeamForm.controls['Members'].invalid}">
+            <label for="Members">{{'Members'| camelCaseToTitle}}</label>
+            </span>
+                      
+
+
+            
+                <div *ngIf="submitted && tenderTeamForm.controls['Members'].errors "class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{'Members'| camelCaseToTitle}} is required.
+                </div>
+            
+        </div>
+        
+
+
+
+        <div class="col-12 flex justify-content-end mt-4">
+            <button pButton pRipple class="p-button-outlined w-8rem mr-3" icon="pi pi-times" label="Cancel"
+                    (click)="CloseInstances($event)"></button>
+            <button pButton pRipple class="p-button-primary w-8rem" [disabled]="isLoading" [icon]="isLoading ? '' : 'pi pi-check'" label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}">
+                <span *ngIf="isLoading" class="pi pi-spin pi-spinner"></span>
+            </button>
+        </div>        
+    </div>
+    </form>
+</div>

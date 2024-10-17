@@ -1,0 +1,51 @@
+<div class="layout-rightmenu" [ngClass]="{'layout-rightmenu-active': appMain.rightMenuActive}" (click)="appMain.onRightMenuClick($event)">
+    <a href="#" (click)="appMain.rightMenuActive=false" class="layout-rightmenu-close">
+        <i class="pi pi-times"></i>
+    </a>
+    <div class="user-detail-wrapper">
+        <div class="user-detail-content">
+            <img [src]="ProfileData?.picture" alt="avatar" style="width: 44px; height: 44px;" *ngIf="ProfileData?.picture" class="user-image">
+            <img src="https://evolza-org-bucket.s3.amazonaws.com/cgaas_logo/empty-profile.png" alt="avatar" style="width: 44px; height: 44px;" *ngIf="!ProfileData?.picture" class="user-image">
+            <span class="user-name">{{ProfileData?.name}}</span>
+            <span class="user-number">{{ProfileData?.email}}</span>
+        </div>
+        <div class="user-tasks">
+            <div class="user-tasks-item in-progress">
+                <a class="task-number">23</a>
+                <span class="task-name">Progress</span>
+            </div>
+            <div class="user-tasks-item">
+                <a class="task-number">6</a>
+                <span class="task-name">Overdue</span>
+            </div>
+            <div class="user-tasks-item">
+                <a class="task-number">38</a>
+                <span class="task-name">All deals</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p-calendar [(ngModel)]="date" [inline]="true" styleClass="w-full"></p-calendar>
+    </div>
+    <div class="daily-plan-wrapper">
+        <span class="today-date">14 Sunday, Jun 2020</span>
+        <ul>
+            <li>
+                <span class="event-time">1:00 PM - 2:00 PM</span>
+                <span class="event-topic">Meeting with Alfredo Rhiel Madsen</span>
+            </li>
+            <li>
+                <span class="event-time">2:00 PM - 3:00 PM</span>
+                <span class="event-topic">Team Sync</span>
+            </li>
+            <li>
+                <span class="event-time">5:00 PM - 6:00 PM</span>
+                <span class="event-topic">Team Sync</span>
+            </li>
+            <li>
+                <span class="event-time">7:00 PM - 7:30 PM</span>
+                <span class="event-topic">Meeting with Engineering managers</span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+<!-- Card Container -->
+<!-- Card Container -->
+<div class="card-container flex justify-content-center">
+    <!-- Bid Bond Card -->
+    <div
+        class="card"
+        (click)="showDialog()"
+        style="
+            background-color: var(--primary-color);
+            color: white;
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        "
+    >
+        <span class="pi pi-file" style="font-size: 2rem; margin-bottom: 10px;"></span>
+        <p style="font-size: 1.25rem; text-align: center;">Bid Bond</p>
+        <p-dialog
+            header="Bid Bond"
+            [resizable]="false"
+            [modal]="true"
+            [maximizable]="true"
+            appendTo="body"
+            [(visible)]="dialogVisible"
+            [style]="{ width: '75vw' }"
+            [contentStyle]="{ height: '300px' }"
+        >
+            <app-bid-bond [tenderId]="tenderId"></app-bid-bond>
+        </p-dialog>
+    </div>
+
+    <!-- Performance Bond Card -->
+    <div
+        class="card"
+        (click)="showDialogPerformanceBond()"
+        style="
+            background-color: var(--primary-color);
+            color: white;
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        "
+    >
+        <span class="pi pi-shield" style="font-size: 2rem; margin-bottom: 10px;"></span>
+        <p style="font-size: 1.25rem; text-align: center;">Performance Bond</p>
+        <p-dialog
+            header="Performance Bond"
+            [resizable]="false"
+            [modal]="true"
+            [maximizable]="true"
+            appendTo="body"
+            [(visible)]="performanceDialogVisible"
+            [style]="{ width: '75vw' }"
+            [contentStyle]="{ height: '300px' }"
+        >
+            <app-performance-bond [tenderId]="tenderId"></app-performance-bond>
+        </p-dialog>
+    </div>
+
+    <!-- Other Payments Card -->
+    <div
+        class="card"
+        (click)="showDialogOtherPayments()"
+        style="
+            background-color: var(--primary-color);
+            color: white;
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        "
+    >
+        <span class="pi pi-wallet" style="font-size: 2rem; margin-bottom: 10px;"></span>
+        <p style="font-size: 1.25rem; text-align: center;">Other Payments</p>
+        <p-dialog
+            header="Other Payments"
+            [resizable]="false"
+            [modal]="true"
+            [maximizable]="true"
+            appendTo="body"
+            [(visible)]="otherPaymentsDialogVisible"
+            [style]="{ width: '75vw' }"
+            [contentStyle]="{ height: '300px' }"
+        >
+            <app-other-payments [tenderId]="tenderId"></app-other-payments>
+        </p-dialog>
+    </div>
+</div>
+
+
+<!-- CSS Styles for Card Layout -->
+<style>
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    padding-top: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* White with transparency */
+    border-radius: 10px; /* Optional: add rounding to the container */
+    padding: 20px; /* Optional: add padding for better spacing */
+}
+
+.card {
+    transition: transform 0.3s ease;
+    margin: 10px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+</style>

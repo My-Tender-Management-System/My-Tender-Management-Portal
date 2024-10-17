@@ -1,0 +1,70 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="UserData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['FirstName','LastName','Email','RoleId','RoleName',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'User'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <!-- <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div> -->
+                    <button *ngIf="hasAccess('DTO2784', 'CREATE') && dtoName" (click)="showCreateUserDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add User"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="FirstName" class="white-space-nowrap" style="width:35%">{{'FirstName'| camelCaseToTitle}} <p-sortIcon field="FirstName"></p-sortIcon></th>
+<th pSortableColumn="LastName" class="white-space-nowrap" style="width:35%">{{'LastName'| camelCaseToTitle}} <p-sortIcon field="LastName"></p-sortIcon></th>
+<th pSortableColumn="Email" class="white-space-nowrap" style="width:35%">{{'Email'| camelCaseToTitle}} <p-sortIcon field="Email"></p-sortIcon></th>
+<th pSortableColumn="RoleId" class="white-space-nowrap" style="width:35%">{{'RoleId'| camelCaseToTitle}} <p-sortIcon field="RoleId"></p-sortIcon></th>
+<th pSortableColumn="RoleName" class="white-space-nowrap" style="width:35%">{{'RoleName'| camelCaseToTitle}} <p-sortIcon field="RoleName"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-UserData>
+            <tr>
+                <td style="width:20%; min-width:10rem;">
+{{UserData.FirstName ? (UserData.FirstName.length > 20 ? (UserData.FirstName | slice:0:20) + '...' : UserData.FirstName) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{UserData.LastName ? (UserData.LastName.length > 20 ? (UserData.LastName | slice:0:20) + '...' : UserData.LastName) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{UserData.Email ? (UserData.Email.length > 20 ? (UserData.Email | slice:0:20) + '...' : UserData.Email) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{UserData.RoleId ? (UserData.RoleId.length > 20 ? (UserData.RoleId | slice:0:20) + '...' : UserData.RoleId) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{UserData.RoleName ? (UserData.RoleName.length > 20 ? (UserData.RoleName | slice:0:20) + '...' : UserData.RoleName) : '-'}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2784', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditUserDialog(UserData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2784', 'DELETE')" (click)="deleteUser(UserData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

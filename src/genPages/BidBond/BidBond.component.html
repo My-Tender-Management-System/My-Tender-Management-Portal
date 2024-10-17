@@ -1,0 +1,444 @@
+<!-- <p-toast></p-toast> -->
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="BidBondData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'Amount',
+            'Company',
+            'RefNo',
+            'ValidityPeriod',
+            'GuaranteeType',
+            'BeneficiaryName',
+            'Remark',
+            'BeneficiaryMobile',
+            'RequestedDate',
+            'RequiredDate',
+            'Bank',
+            'Branch',
+            'CollectedBy',
+            'ReceivedDate',
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{ 'BidBond' | camelCaseToTitle }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div>
+                    <button
+                        *ngIf="hasAccess('DTO2812', 'CREATE') && dtoName"
+                        (click)="showCreateBidBondDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Bid Bond"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th
+                    pSortableColumn="Amount"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Amount" | camelCaseToTitle }}
+                    <p-sortIcon field="Amount"></p-sortIcon>
+                </th>
+                <!-- <th
+                    pSortableColumn="Status"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Status" | camelCaseToTitle }}
+                    <p-sortIcon field="Status"></p-sortIcon>
+                </th> -->
+                <th
+                    pSortableColumn="Company"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Company" | camelCaseToTitle }}
+                    <p-sortIcon field="Company"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RefNo"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RefNo" | camelCaseToTitle }}
+                    <p-sortIcon field="RefNo"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="ValidityPeriod"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "ValidityPeriod" | camelCaseToTitle }}
+                    <p-sortIcon field="ValidityPeriod"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="GuaranteeType"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "GuaranteeType" | camelCaseToTitle }}
+                    <p-sortIcon field="GuaranteeType"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="BeneficiaryName"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "BeneficiaryName" | camelCaseToTitle }}
+                    <p-sortIcon field="BeneficiaryName"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Remark"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Remark" | camelCaseToTitle }}
+                    <p-sortIcon field="Remark"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="BeneficiaryMobile"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "BeneficiaryMobile" | camelCaseToTitle }}
+                    <p-sortIcon field="BeneficiaryMobile"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RequestedDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RequestedDate" | camelCaseToTitle }}
+                    <p-sortIcon field="RequestedDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RequiredDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RequiredDate" | camelCaseToTitle }}
+                    <p-sortIcon field="RequiredDate"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Bank"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Bank" | camelCaseToTitle }}
+                    <p-sortIcon field="Bank"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Branch"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Branch" | camelCaseToTitle }}
+                    <p-sortIcon field="Branch"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="CollectedBy"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "CollectedBy" | camelCaseToTitle }}
+                    <p-sortIcon field="CollectedBy"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="ReceivedDate"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "ReceivedDate" | camelCaseToTitle }}
+                    <p-sortIcon field="ReceivedDate"></p-sortIcon>
+                </th>
+                <!-- <th
+                    pSortableColumn="TenderId"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "TenderId" | camelCaseToTitle }}
+                    <p-sortIcon field="TenderId"></p-sortIcon>
+                </th> -->
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-BidBondData>
+            <tr>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.Amount }}
+                </td>
+                <!-- <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.Status }}
+                </td> -->
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.Company
+                            ? BidBondData.Company.length > 20
+                                ? (BidBondData.Company | slice : 0 : 20) + "..."
+                                : BidBondData.Company
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.RefNo
+                            ? BidBondData.RefNo.length > 20
+                                ? (BidBondData.RefNo | slice : 0 : 20) + "..."
+                                : BidBondData.RefNo
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    Start Date:
+                    {{
+                        BidBondData.ValidityPeriod.start | date : "dd-MM-yyyy"
+                    }}
+                    <br />
+                    End Date:
+                    {{ BidBondData.ValidityPeriod.end | date : "dd-MM-yyyy" }}
+                </td>
+
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.GuaranteeType
+                            ? BidBondData.GuaranteeType.length > 20
+                                ? (BidBondData.GuaranteeType | slice : 0 : 20) +
+                                  "..."
+                                : BidBondData.GuaranteeType
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.BeneficiaryName }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.Remark }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.BeneficiaryMobile }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.RequestedDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.RequiredDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.Bank
+                            ? BidBondData.Bank.length > 20
+                                ? (BidBondData.Bank | slice : 0 : 20) + "..."
+                                : BidBondData.Bank
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.Branch
+                            ? BidBondData.Branch.length > 20
+                                ? (BidBondData.Branch | slice : 0 : 20) + "..."
+                                : BidBondData.Branch
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.CollectedBy
+                            ? BidBondData.CollectedBy.length > 20
+                                ? (BidBondData.CollectedBy | slice : 0 : 20) +
+                                  "..."
+                                : BidBondData.CollectedBy
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 6%; min-width: 10rem">
+                    {{ BidBondData.ReceivedDate | date : "dd-MM-yyyy" }}
+                </td>
+                <!-- <td style="width: 6%; min-width: 10rem">
+                    {{
+                        BidBondData.TenderId
+                            ? BidBondData.TenderId.length > 20
+                                ? (BidBondData.TenderId | slice : 0 : 20) +
+                                  "..."
+                                : BidBondData.TenderId
+                            : "-"
+                    }}
+                </td> -->
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-eye"
+                            class="p-button-primary p-button-rounded mr-2"
+                            (click)="
+                                showSelectRelationShip(
+                                    TenderData,
+                                    'DTO2814',
+                                    TenderData.TenderId
+                                )
+                            "
+                            pTooltip="View"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2812', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="showEditBidBondDialog(BidBondData)"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2812', 'DELETE')"
+                            (click)="deleteBidBond(BidBondData)"
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- 
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+    <p-table #dt [value]="BidBondData" [paginator]="true" [rows]="10" 
+        [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="['Amount','Status','Company','RefNo','ValidityPeriod','GuaranteeType','BeneficiaryName','Remark','BeneficiaryMobile','RequestedDate','RequiredDate','Bank','Branch','CollectedBy','ReceivedDate','TenderId']"
+        [loading]="isDataLoading">
+
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" 
+                        placeholder="{{'BidBond' | camelCaseToTitle}} Search" 
+                        class="w-full" />
+                </span>
+
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" 
+                        icon="pi pi-download" label="Download CSV" (click)="downloadFile()"></button>
+                    
+                    <div>
+                        
+                        <input type="file" id="fileInput" style="display: none" 
+                            (change)="uploadFile($event)">
+                        <label pButton type="button" 
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" 
+                            icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div>
+
+               
+                    <button *ngIf="hasAccess('DTO2812', 'CREATE') && dtoName" 
+                        (click)="showCreateBidBondDialog()" pButton 
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" 
+                        icon="pi pi-plus" label="Add BidBond"></button>
+                </div>
+            </div>
+
+        
+            <div class="flex flex-wrap gap-2 justify-content-start w-full sm:w-auto hide-on-small" style="display: flex;">
+                <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" 
+                    optionLabel="header" selectedItemsLabel="{0} columns selected" 
+                    class="w-full sm:w-auto" placeholder="Choose Columns">
+                </p-multiSelect>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of selectedColumns" pSortableColumn="{{col.field}}">
+                    {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th *ngIf="canDelete || canUpdate">Action</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-BidBondData>
+            <tr>
+                <td *ngFor="let col of selectedColumns">{{BidBondData[col.field]}}</td>
+                <td *ngIf="canDelete || canUpdate">
+                   
+                    <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning" 
+                        (click)="showUpdateBidBondDialog(BidBondData)"></button>
+                    
+                   \
+                    <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" 
+                        (click)="confirmDelete(BidBondData)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div> -->

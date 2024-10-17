@@ -1,0 +1,317 @@
+<div class="p-4">
+    <form [formGroup]="bidBondForm" (ngSubmit)="save()">
+        <div class="grid p-fluid formgrid">
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-inputNumber
+                        id="Amount"
+                        type="text"
+                        formControlName="Amount"
+                        autofocus
+                        [ngClass]="{'ng-invalid ng-dirty':submitted && bidBondForm.controls['Amount'].invalid}"
+                    ></p-inputNumber>
+                    <label for="Amount">
+                        {{'Amount'| camelCaseToTitle}}
+                        <span style="color: red">*</span>
+                        <!-- Red star for mandatory fields -->
+                    </label>
+                </span>
+
+                <div
+                    *ngIf="submitted && bidBondForm.controls['Amount'].errors"
+                    class="p-error text-sm mt-2 md:px-3"
+                >
+                    <i
+                        class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"
+                    ></i>
+                    {{'Amount' | camelCaseToTitle}} is required.
+                </div>
+            </div>
+
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Status"
+                        type="text"
+                        pInputText
+                        formControlName="Status"
+                    />
+                    <label for="Status">{{'Status'| camelCaseToTitle}}</label>
+                </span>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <!-- <p-dropdown
+                        [options]="dropdownCompanyOptions"
+                        optionLabel="value"
+                        formControlName="Company"
+                        [filter]="true"
+                    >
+                    </p-dropdown> -->
+
+                    <p-dropdown
+                        [options]="companyOptions"
+                        formControlName="Company"
+                        placeholder="Select company"
+                        (onChange)="oncompanyChange($event.value)"
+                        [showClear]="true"
+                    ></p-dropdown>
+
+                    <label for="Company"
+                        >{{ 'Company' | camelCaseToTitle }}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="RefNo"
+                        type="text"
+                        pInputText
+                        formControlName="RefNo"
+                    />
+                    <label for="RefNo">{{'RefNo'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <!-- <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="ValidityPeriod"
+                        appendTo="body"
+                        formControlName="ValidityPeriod"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="ValidityPeriod"
+                        >{{'ValidityPeriod'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        appendTo="body"
+                        formControlName="rangeDates"
+                        selectionMode="range"
+                        [showIcon]="true"
+                        [readonlyInput]="true"
+                        (onSelect)="onDateSelect($event)"
+                    ></p-calendar>
+                    <label for="ValidityPeriod"
+                        >{{'ValidityPeriod' | camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="GuaranteeType"
+                        type="text"
+                        pInputText
+                        formControlName="GuaranteeType"
+                    />
+                    <label for="GuaranteeType"
+                        >{{'GuaranteeType'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="5"
+                        cols="30"
+                        pInputTextarea
+                        id="Beneficiary"
+                        formControlName="BeneficiaryName"
+                    ></textarea>
+                    <label for="Beneficiary"
+                        >{{'Beneficiary'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <textarea
+                        rows="5"
+                        cols="30"
+                        pInputTextarea
+                        id="Remark"
+                        formControlName="Remark"
+                    ></textarea>
+                    <label for="Remark">{{'Remark'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <div>
+                    <ngx-intl-tel-input
+                        [cssClass]="'custom'"
+                        [preferredCountries]="preferredCountries"
+                        [enableAutoCountrySelect]="true"
+                        [enablePlaceholder]="true"
+                        [searchCountryFlag]="true"
+                        [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+            ]
+            "
+                        [selectFirstCountry]="false"
+                        [selectedCountryISO]="CountryISO.SriLanka"
+                        [maxLength]="15"
+                        [phoneValidation]="true"
+                        [separateDialCode]="true"
+                        [numberFormat]="PhoneNumberFormat.National"
+                        name="phone"
+                        formControlName="BeneficiaryMobile"
+                    >
+                    </ngx-intl-tel-input>
+                </div>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="RequestedDate"
+                        appendTo="body"
+                        formControlName="RequestedDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="RequestedDate"
+                        >{{'RequestedDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="RequiredDate"
+                        appendTo="body"
+                        formControlName="RequiredDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="RequiredDate"
+                        >{{'RequiredDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-dropdown
+                        id="Bank"
+                        [options]="banksDropdownOptions"
+                        formControlName="Bank"
+                        optionLabel="label"
+                        placeholder="Select a Bank"
+                        [showClear]="true"
+                    ></p-dropdown>
+                    <label for="Bank">{{ 'Bank' | camelCaseToTitle }}</label>
+                </span>
+            </div>
+
+            <!-- <div class="field col-12 md:col-6 mt-3"></div>
+                <span class="p-float-label">
+                    <p-dropdown
+                        id="Status"
+                        [options]="TenderStatusDropdownOptions"
+                        formControlName="Status"
+                        optionLabel="label"
+                        placeholder="Select a Status"
+                        [showClear]="true"
+                    ></p-dropdown>
+                    <label for="Status">{{ 'Status' | camelCaseToTitle }} <span style="color: red;">*</span></label>
+                </span>
+            
+                <div *ngIf="submitted && tenderForm.controls['Status'].errors" class="p-error text-sm mt-2 md:px-3">
+                    <i class="pi pi-exclamation-circle mr-1 text-red-500 text-sm"></i>
+                    {{ 'Status' | camelCaseToTitle }} is required.
+                </div>
+            </div> -->
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="Branch"
+                        type="text"
+                        pInputText
+                        formControlName="Branch"
+                    />
+                    <label for="Branch">{{'Branch'| camelCaseToTitle}}</label>
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="CollectedBy"
+                        type="text"
+                        pInputText
+                        formControlName="CollectedBy"
+                    />
+                    <label for="CollectedBy"
+                        >{{'CollectedBy'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <p-calendar
+                        id="ReceivedDate"
+                        appendTo="body"
+                        formControlName="ReceivedDate"
+                        [showIcon]="true"
+                    ></p-calendar>
+                    <label for="ReceivedDate"
+                        >{{'ReceivedDate'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="field col-12 md:col-6 mt-3">
+                <span class="p-float-label">
+                    <input
+                        id="TenderId"
+                        type="text"
+                        pInputText
+                        formControlName="TenderId"
+                    />
+                    <label for="TenderId"
+                        >{{'TenderId'| camelCaseToTitle}}</label
+                    >
+                </span>
+            </div>
+
+            <div class="col-12 flex justify-content-end mt-4">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-outlined w-8rem mr-3"
+                    icon="pi pi-times"
+                    label="Cancel"
+                    (click)="CloseInstances($event)"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-8rem"
+                    [disabled]="isLoading || !bidBondForm.valid"
+                    [icon]="isLoading ? '' : 'pi pi-check'"
+                    label="{{ isLoading ? '&nbsp;&nbsp;Saving' : 'Save' }}"
+                >
+                    <span
+                        *ngIf="isLoading"
+                        class="pi pi-spin pi-spinner"
+                    ></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

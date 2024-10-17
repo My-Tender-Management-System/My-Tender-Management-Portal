@@ -1,0 +1,63 @@
+<!-- <p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="NotificationData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Title','Message','IsRead',]"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'Notification'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div>
+                    <button *ngIf="hasAccess('DTO2816', 'CREATE') && dtoName" (click)="showCreateNotificationDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Notification"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Title" class="white-space-nowrap" style="width:35%">{{'Title'| camelCaseToTitle}} <p-sortIcon field="Title"></p-sortIcon></th>
+<th pSortableColumn="Message" class="white-space-nowrap" style="width:35%">{{'Message'| camelCaseToTitle}} <p-sortIcon field="Message"></p-sortIcon></th>
+<th pSortableColumn="IsRead" class="white-space-nowrap" style="width:35%">{{'IsRead'| camelCaseToTitle}} <p-sortIcon field="IsRead"></p-sortIcon></th>
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-NotificationData>
+            <tr>
+                <td style="width:33%; min-width:10rem;">
+{{NotificationData.Title ? (NotificationData.Title.length > 20 ? (NotificationData.Title | slice:0:20) + '...' : NotificationData.Title) : '-'}} 
+</td>
+<td style="width:33%; min-width:10rem;">
+{{NotificationData.Message ? (NotificationData.Message.length > 20 ? (NotificationData.Message | slice:0:20) + '...' : NotificationData.Message) : '-'}} 
+</td>
+<td style="width:33%; min-width:10rem;">
+{{NotificationData.IsRead}} 
+</td>
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2816', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditNotificationDialog(NotificationData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2816', 'DELETE')" (click)="deleteNotification(NotificationData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div> -->
+<app-tender-related></app-tender-related>

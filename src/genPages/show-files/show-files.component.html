@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="text-900 text-xl font-semibold mb-3">Files</div>
+    <div class="grid">
+        <div *ngFor="let folder of Files; let i = index" class="col-12 md:col-6 xl:col-4 position-relative">
+            <div class="p-3 border-1 surface-border flex align-items-center justify-content-between hover:surface-100 cursor-pointer border-round position-relative">
+                <a [href]="folder" target="_blank" class="no-underline flex align-items-center">
+                    <i class="text-2xl mr-3" [ngClass]="getIconByExtension(folder)"></i>
+                    <span class="text-900 text-lg font-medium">{{ extractFileName(folder) }}</span>
+                </a>
+                <button type="button" pButton class="p-button-icon-only p-button-danger" (click)="deleteFile(folder)">
+                    <i class="pi pi-times"></i> 
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

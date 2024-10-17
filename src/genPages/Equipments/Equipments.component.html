@@ -1,0 +1,227 @@
+<p-toast></p-toast>
+<div *ngIf="backtoEqiupmentDetail" class="mb-3">
+    <button
+        pButton
+        pRipple
+        label="Back"
+        icon="pi pi-arrow-left"
+        class="p-button-outlined p-button-secondary"
+        (click)="navigateToEquipmentDetails()"
+        class="p-button-rounded p-button-primary mr-2"
+    ></button>
+</div>
+<div class="card">
+    <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+    <p-table
+        #dt
+        [value]="EquipmentsData"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [globalFilterFields]="[
+            'Name',
+            'Make',
+            'Model',
+            'RefNo',
+            'Country',
+            'UnitPrice'
+        ]"
+        [loading]="isDataLoading"
+    >
+        <ng-template pTemplate="caption">
+            <div
+                class="flex flex-wrap gap-2 align-items-center justify-content-between"
+            >
+                <span
+                    class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0"
+                >
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="onGlobalFilter(dt, $event)"
+                        placeholder="{{
+                            'Equipments' | camelCaseToTitle
+                        }} Search"
+                        class="w-full"
+                    />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button
+                        pButton
+                        class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-download"
+                        label="Download CSV"
+                        (click)="downloadFile()"
+                    ></button>
+                    <!-- <div>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            (change)="uploadFile($event)"
+                        />
+                        <label
+                            pButton
+                            type="button"
+                            class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"
+                            icon="pi pi-upload"
+                            label="Upload CSV"
+                            for="fileInput"
+                        ></label>
+                    </div> -->
+                    <button
+                        *ngIf="hasAccess('DTO2807', 'CREATE') && dtoName"
+                        (click)="showCreateEquipmentsDialog()"
+                        pButton
+                        class="p-button-primary w-full sm:w-auto ml-0 md:ml-3"
+                        icon="pi pi-plus"
+                        label="Add Equipments"
+                    ></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th
+                    pSortableColumn="Name"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Name" | camelCaseToTitle }}
+                    <p-sortIcon field="Name"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Make"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Make" | camelCaseToTitle }}
+                    <p-sortIcon field="Make"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Model"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Model" | camelCaseToTitle }}
+                    <p-sortIcon field="Model"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="RefNo"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "RefNo" | camelCaseToTitle }}
+                    <p-sortIcon field="RefNo"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="Country"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "Country" | camelCaseToTitle }}
+                    <p-sortIcon field="Country"></p-sortIcon>
+                </th>
+                <th
+                    pSortableColumn="UnitPrice"
+                    class="white-space-nowrap"
+                    style="width: 35%"
+                >
+                    {{ "UnitPrice" | camelCaseToTitle }}
+                    <p-sortIcon field="UnitPrice"></p-sortIcon>
+                </th>
+
+                <th
+                    *ngIf="canDelete || canUpdate"
+                    class="white-space-nowrap"
+                    style="width: 25%"
+                >
+                    Action
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-EquipmentsData>
+            <tr>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        EquipmentsData.Name
+                            ? EquipmentsData.Name.length > 20
+                                ? (EquipmentsData.Name | slice : 0 : 20) + "..."
+                                : EquipmentsData.Name
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        EquipmentsData.Make
+                            ? EquipmentsData.Make.length > 20
+                                ? (EquipmentsData.Make | slice : 0 : 20) + "..."
+                                : EquipmentsData.Make
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        EquipmentsData.Model
+                            ? EquipmentsData.Model.length > 20
+                                ? (EquipmentsData.Model | slice : 0 : 20) +
+                                  "..."
+                                : EquipmentsData.Model
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        EquipmentsData.RefNo
+                            ? EquipmentsData.RefNo.length > 20
+                                ? (EquipmentsData.RefNo | slice : 0 : 20) +
+                                  "..."
+                                : EquipmentsData.RefNo
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{
+                        EquipmentsData.Country
+                            ? EquipmentsData.Country.length > 20
+                                ? (EquipmentsData.Country | slice : 0 : 20) +
+                                  "..."
+                                : EquipmentsData.Country
+                            : "-"
+                    }}
+                </td>
+                <td style="width: 16%; min-width: 10rem">
+                    {{ EquipmentsData.UnitPrice }}
+                </td>
+
+                <td>
+                    <div class="flex">
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-pencil"
+                            *ngIf="hasAccess('DTO2807', 'UPDATE')"
+                            class="p-button-rounded p-button-primary mr-2"
+                            pTooltip="Edit"
+                            (click)="showEditEquipmentsDialog(EquipmentsData)"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2807', 'DELETE')"
+                            (click)="deleteEquipments(EquipmentsData)"
+                            pTooltip="Delete"
+                        ></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

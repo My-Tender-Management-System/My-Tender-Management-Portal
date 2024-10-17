@@ -1,0 +1,70 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-table #dt [value]="EvaluationCommitteeData" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [globalFilterFields]="['Name','Designation','Email','Phone']"
+             [loading]="isDataLoading"  >
+        <ng-template pTemplate="caption">
+            <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="{{'EvaluationCommittee'| camelCaseToTitle}} Search" class="w-full" />
+                </span>
+                <div class="flex w-full sm:w-auto justify-content-end">
+                    <button pButton class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-download" label="Download CSV" (click)="downloadFile()" ></button>
+                    <!-- <div>
+                        <input type="file" id="fileInput" style="display: none" (change)="uploadFile($event)">
+                        <label pButton type="button" class="p-button-outlined hidden sm:block w-full sm:w-auto ml-0 md:ml-3"icon="pi pi-upload" label="Upload CSV" for="fileInput"></label>
+                    </div> -->
+                    <button *ngIf="hasAccess('DTO2809', 'CREATE') && dtoName" (click)="showCreateEvaluationCommitteeDialog()" pButton class="p-button-primary w-full sm:w-auto ml-0 md:ml-3" icon="pi pi-plus" label="Add Evaluation Committee"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="Name" class="white-space-nowrap" style="width:35%">{{'Name'| camelCaseToTitle}} <p-sortIcon field="Name"></p-sortIcon></th>
+<th pSortableColumn="Designation" class="white-space-nowrap" style="width:35%">{{'Designation'| camelCaseToTitle}} <p-sortIcon field="Designation"></p-sortIcon></th>
+<th pSortableColumn="Email" class="white-space-nowrap" style="width:35%">{{'Email'| camelCaseToTitle}} <p-sortIcon field="Email"></p-sortIcon></th>
+<th pSortableColumn="Phone" class="white-space-nowrap" style="width:35%">{{'Phone'| camelCaseToTitle}} <p-sortIcon field="Phone"></p-sortIcon></th>
+<!-- <th pSortableColumn="TenderId" class="white-space-nowrap" style="width:35%">{{'TenderId'| camelCaseToTitle}} <p-sortIcon field="TenderId"></p-sortIcon></th> -->
+
+                <th *ngIf="canDelete || canUpdate" class="white-space-nowrap" style="width:25%">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-EvaluationCommitteeData>
+            <tr>
+                <td style="width:20%; min-width:10rem;">
+{{EvaluationCommitteeData.Name ? (EvaluationCommitteeData.Name.length > 20 ? (EvaluationCommitteeData.Name | slice:0:20) + '...' : EvaluationCommitteeData.Name) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{EvaluationCommitteeData.Designation ? (EvaluationCommitteeData.Designation.length > 20 ? (EvaluationCommitteeData.Designation | slice:0:20) + '...' : EvaluationCommitteeData.Designation) : '-'}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{EvaluationCommitteeData.Email}} 
+</td>
+<td style="width:20%; min-width:10rem;">
+{{EvaluationCommitteeData.Phone}} 
+</td>
+<!-- <td style="width:20%; min-width:10rem;">
+{{EvaluationCommitteeData.TenderId ? (EvaluationCommitteeData.TenderId.length > 20 ? (EvaluationCommitteeData.TenderId | slice:0:20) + '...' : EvaluationCommitteeData.TenderId) : '-'}} 
+</td> -->
+
+                <td>
+                    <div class="flex">
+
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="hasAccess('DTO2809', 'UPDATE')"
+                                class="p-button-rounded p-button-primary mr-2" pTooltip="Edit"
+                                (click)="showEditEvaluationCommitteeDialog(EvaluationCommitteeData)"></button>
+
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            *ngIf="hasAccess('DTO2809', 'DELETE')" (click)="deleteEvaluationCommittee(EvaluationCommitteeData)"   pTooltip="Delete"></button>
+                        
+                        
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
