@@ -9,7 +9,7 @@ on:
       - 'helm/**' # Exclude the workflow to run on changes to the helm chart
       - 'k8s/**'
       - 'README.md'
-      - '.github/**'
+      #- '.github/**'
 jobs:
   build:
     runs-on: ubuntu-latest
