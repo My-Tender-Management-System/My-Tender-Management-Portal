@@ -1,0 +1,15 @@
+# Service for the application
+apiVersion: v1
+kind: Service
+metadata:
+  name: tender-management-portal-service
+  labels:
+    app: tender-management-portal
+spec:
+  ports:
+  - port: 6000
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: tender-management-portal
+  type: ClusterIP

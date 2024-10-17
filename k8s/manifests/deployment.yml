@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tender-management-portal-deployment
+  labels:
+    app: tender-management-portal
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tender-management-portal
+  template:
+    metadata:
+      labels:
+        app: tender-management-portal
+    spec:
+      containers:
+      - name: tender-management-portal
+        image: sachinayeshmantha/tender-management-portal:11376709159
+        ports:
+        - containerPort: 80
