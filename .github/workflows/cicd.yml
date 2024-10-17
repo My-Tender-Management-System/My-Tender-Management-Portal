@@ -6,8 +6,8 @@ on:
       - main
     # If someone updates the paths which has been mentioned in "paths-ignore", then workflow will not run for that.
     paths-ignore:
-      - 'helm/**' # Exclude the workflow to run on changes to the helm chart
-      - 'k8s/**'
+      #- 'helm/**' # Exclude the workflow to run on changes to the helm chart
+      #- 'k8s/**'
       - 'README.md'
       #- '.github/**'
 jobs:
@@ -71,30 +71,30 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/tender-management-portal:${{github.run_id}}
         # Whenever a developer make a commit, the tag  of docker image will create with new run id
 
-  # update-newtag-in-helm-chart:
-  #   runs-on: ubuntu-latest
+  update-newtag-in-helm-chart:
+    runs-on: ubuntu-latest
 
-  #   needs: push
-  #       # This indicate that to trigger this stage, "push" stage has to be completed
+    needs: push
+        # This indicate that to trigger this stage, "push" stage has to be completed
 
 
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v4
-  #     with:
-  #       token: ${{ secrets.TOKEN }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GIT_TOKEN }}
 
-  #   - name: Update tag in Helm chart
-  #     run: |
-  #       sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/go-web-app-chart/values.yaml
-  #     # this sed commnad first will  go to helm directory then will go to the values.yml, after it will update anything that is in the tag.
-  #     # It will substitute the tag with github run id
+    - name: Update tag in Helm chart
+      run: |
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/tender-management-portal-chart/values.yaml
+      # this sed commnad first will  go to helm directory then will go to the values.yml, after it will update anything that is in the tag.
+      # It will substitute the tag with github run id
     
-  #     # Once values.yml is updated by using sed command , we have to push the commit again to our  same repository    
-  #   - name: Commit and push changes
-  #     run: |
-  #       git config --global user.email "sachinayeshmantha@gmail.com"
-  #       git config --global user.name "Sachin20010517"
-  #       git add helm/go-web-app-chart/values.yaml
-  #       git commit -m "Update tag in Helm chart"
-  #       git push      
+      # Once values.yml is updated by using sed command , we have to push the commit again to our  same repository    
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "sachinayeshmantha@gmail.com"
+        git config --global user.name "Sachin20010517"
+        git add helm/tender-management-portal-chart/values.yaml
+        git commit -m "Update tag in Helm chart"
+        git push      
