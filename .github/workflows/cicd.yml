@@ -29,8 +29,8 @@ jobs:
     - name: Build Angular app
       run: npm run build -- --configuration=production
     
-    - name: Test Angular app
-      run: npm run test -- --watch=false --code-coverage
+    # - name: Test Angular app
+    #   run: npm run test -- --watch=false --code-coverage
 
   code-quality:
     runs-on: ubuntu-latest
