@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tender-management-portal-deployment
+  namespace: tender-management-portal
   labels:
     app: tender-management-portal
 spec:
@@ -16,6 +17,6 @@ spec:
     spec:
       containers:
       - name: tender-management-portal
-        image: sachinayeshmantha/tender-management-portal:11376709159
+        image: sachinayeshmantha/tender-management-portal:11379225043
         ports:
         - containerPort: 80

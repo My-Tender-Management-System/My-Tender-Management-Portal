@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tender-management-portal-service
+  namespace: tender-management-portal
   labels:
     app: tender-management-portal
 spec:

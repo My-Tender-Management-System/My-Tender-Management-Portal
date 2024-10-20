@@ -5,6 +5,9 @@ metadata:
   namespace: tender-management-portal
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: letsencrypt-prod   # This tells Cert-Manager to use the ClusterIssuer
+    acme.cert-manager.io/http01-ingress-class: "nginx"  # Specifies that Cert-Manager should solve the challenge using the NGINX Ingress Controller
+
 spec:
   ingressClassName: nginx
   rules:
@@ -18,3 +21,8 @@ spec:
             name: tender-management-portal-service
             port:
               number: 6000
+
+  tls:
+  - hosts:
+    - tender-mgt-portal.sachinayeshmantha.live  # The domain for which the certificate will be issued
+    secretName: tender-mgt-portal-tls           # Cert-Manager will create this secret with the TLS certificate
